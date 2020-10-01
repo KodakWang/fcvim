@@ -119,16 +119,5 @@ autocmd BufRead,BufNewFile *.s,*.asm,*.h,*.c,*.cpp,*.cc,*.java,*.cs,*.erl,*.hs,*
 " 更新文件头注释关键字（这个操作会影响到Redo,Undo）
 " autocmd BufWritePre *.[ch],*.cpp call FCVIM_CommentKeysUpdate(20)
 
-" 进入GUI自动窗口透明，最大化，最前端。
-if !has('unix')
-    " autocmd GUIEnter * call libcallnr($FCVIM_ROOT . "/tools/vimtweak.dll", "SetAlpha", 200)
-    " autocmd GUIEnter * call libcallnr($FCVIM_ROOT . "/tools/vimtweak.dll", "EnableMaximize", 1)
-    " autocmd GUIEnter * call libcallnr($FCVIM_ROOT . "/tools/vimtweak.dll", "EnableTopMost", 1)
-    autocmd GUIEnter * call VimTweakSetAlpha(200)
-    autocmd GUIEnter * call VimTweakEnableMaximize()
-    autocmd GUIEnter * call VimTweakEnableTopMost()
-    autocmd GUIEnter * call VimTweakEnableCaption()
-endif
-
 
 

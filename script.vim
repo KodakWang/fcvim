@@ -13,7 +13,7 @@
 " Specify a directory for plugins
 " - For Neovim: stdpath('data') . '/plugged'
 " - Avoid using standard Vim directory names like 'plugin'
-call plug#begin($FCVIM_ROOT . '/plugged')
+silent! call plug#begin($FCVIM_ROOT . '/plugged')
 
 " Make sure you use single quotes
 
@@ -44,7 +44,7 @@ Plug 'vim-scripts/linuxsty.vim'
 
 Plug 'vim-scripts/STL-Syntax'
 
-Plug 'mattn/vimtweak'
+" Plug 'mattn/vimtweak'
 
 " Unmanaged plugin (manually installed and updated)
 Plug $FCVIM_ROOT . '/plugged/taglist'
@@ -73,6 +73,7 @@ call plug#end()
 "     - 16. authorinfo          头注释
 "       17.TagHighlight         高亮配置
 "       18.doxygen toolkit      自动源文件注释 
+"       19.vimtweak             windows窗口控制
 "
 
 "-----------------------------------------------------------------
@@ -302,6 +303,22 @@ endif
 " let g:DoxygenToolkit_briefTag_funcName="yes"
 " let g:doxygen_enhanced_color=1
 
+
+
+
+"--------------------------------------------------------
+"   19.vimtweak 
+"--------------------------------------------------------
+" 进入GUI自动窗口透明，最大化，最前端。
+if !has('unix')
+    if !exists('g:vimtweak_dll_path')   
+        let g:vimtweak_dll_path = $FCVIM_TOOLS . '/vimtweak.dll'
+    endif
+    autocmd GUIEnter * call libcallnr(g:vimtweak_dll_path, "SetAlpha", 200)
+    autocmd GUIEnter * call libcallnr(g:vimtweak_dll_path, "EnableMaximize", 1)
+    autocmd GUIEnter * call libcallnr(g:vimtweak_dll_path, "EnableTopMost", 1)
+    autocmd GUIEnter * call libcallnr(g:vimtweak_dll_path, "EnableCaption", 1)
+endif
 
 
 

@@ -1,15 +1,13 @@
 "
 " FCVIM: Advanced VIM.
 "
-" Copyright (C) 2013-2014 Kodak Wang. All rights reserved.
+" Copyright (C) 2013-2021 Kodak Wang. All rights reserved.
 "
-" Created by FangChuang(方窗) <kodakwang@gmail.com>
+" Created by Kodak Wang <kodakwang@gmail.com>
 "
 " Please do not reproduced, distribute or quote without written
 " permission of the author. This software is not perfect, any
 " problems arising from the use, have nothing to do with the author.
-"
-" Note: FangChuang is the author's pseudonym.
 "
 
 try
