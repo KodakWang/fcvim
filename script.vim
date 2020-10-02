@@ -21,12 +21,13 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
 " Plugin outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 
-Plug 'fholgado/minibufexpl.vim'
+" Plug 'millermedeiros/vim-statline'
+" Plug 'fholgado/minibufexpl.vim'
+Plug 'vim-airline/vim-airline'
 
 Plug 'vim-scripts/a.vim'
-
-Plug 'millermedeiros/vim-statline'
 
 Plug 'preservim/nerdcommenter'
 
@@ -319,6 +320,22 @@ if !has('unix')
     autocmd GUIEnter * call libcallnr(g:vimtweak_dll_path, "EnableTopMost", 1)
     autocmd GUIEnter * call libcallnr(g:vimtweak_dll_path, "EnableCaption", 1)
 endif
+
+
+
+
+"--------------------------------------------------------
+"   20.airline 
+"--------------------------------------------------------
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#tabline#buffer_nr_format = '%s:'
+
+let g:airline#extensions#tabline#left_sep = ''
+let g:airline#extensions#tabline#left_alt_sep = ''
+let g:airline#extensions#tabline#right_sep = ''
+let g:airline#extensions#tabline#right_alt_sep = ''
+
 
 
 

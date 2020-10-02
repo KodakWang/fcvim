@@ -26,13 +26,13 @@ set shortmess=atl               " 不显示欢迎界面
 set number                      " 显示行号
 
 " 状态栏
-if !exists("g:loaded_statline_plugin")
-set ruler                       " 打开状态栏标尺
-set laststatus=2                " 总是显示状态栏
-set statusline=\ %<%F[%1*%M%*%n%R%H]%=\ %y\ %0(%{&fileformat}\ %{&encoding}\ \ \ \ \ \ \ \ %8(%l,%c%)\ \ \ \ \ \ \ \ %3p%%%)\ 
-endif
+" if !exists("g:loaded_statline_plugin")
+" set ruler                       " 打开状态栏标尺
+" set laststatus=2                " 总是显示状态栏
+" set statusline=\ %<%F[%1*%M%*%n%R%H]%=\ %y\ %0(%{&fileformat}\ %{&encoding}\ \ \ \ \ \ \ \ %8(%l,%c%)\ \ \ \ \ \ \ \ %3p%%%)\ 
+" endif
 set wildmenu                    " 打开状态栏命令行补全提示
-set cmdheight=2                 " Height of the command bar
+" set cmdheight=2                 " Height of the command bar
 
 set wildignore=*.o,*.obj        " 打开文件选择忽略编译文件
 
