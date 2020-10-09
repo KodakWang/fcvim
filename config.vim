@@ -201,7 +201,7 @@ if has("multi_byte")
         source $VIMRUNTIME/menu.vim
         set langmenu=zh_CN.UTF-8
         language messages zh_CN.utf-8
-        set guifont=Inconsolata:h12:cANSI   " 设置字体 以及中文支持
+        set guifont=Inconsolata_for_Powerline:h12:cANSI   " 设置字体 以及中文支持
     catch
         throw ""
     endtry

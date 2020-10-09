@@ -20,12 +20,16 @@ silent! call plug#begin($FCVIM_ROOT . '/plugged')
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
 " Plugin outside ~/.vim/plugged with post-update hook
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+" Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+" Plug 'Yggdroot/LeaderF', { 'do': './install.bat' }
 
 " Plug 'millermedeiros/vim-statline'
 " Plug 'fholgado/minibufexpl.vim'
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 Plug 'vim-scripts/a.vim'
 
@@ -331,10 +335,13 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline#extensions#tabline#buffer_nr_format = '%s:'
 
-let g:airline#extensions#tabline#left_sep = ''
-let g:airline#extensions#tabline#left_alt_sep = ''
-let g:airline#extensions#tabline#right_sep = ''
-let g:airline#extensions#tabline#right_alt_sep = ''
+" let g:airline#extensions#tabline#left_sep = ''
+" let g:airline#extensions#tabline#left_alt_sep = ''
+" let g:airline#extensions#tabline#right_sep = ''
+" let g:airline#extensions#tabline#right_alt_sep = ''
+
+let g:airline_powerline_fonts = 1
+" let g:airline_symbols_ascii = 1
 
 
 
