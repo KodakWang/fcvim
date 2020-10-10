@@ -11,11 +11,11 @@
 "
 
 try
-    if exists('g:fcvim_loaded_entry') || &compatible
-        throw 'already loaded' . expand('<sfile>') . '!!!!'
-    endif
+	if exists('g:fcvim_loaded_entry') || &compatible
+		throw 'already loaded' . expand('<sfile>') . '!!!!'
+	endif
 catch
-    finish
+	finish
 endtry
 let g:fcvim_loaded_entry = 1
 
@@ -23,60 +23,52 @@ let g:fcvim_loaded_entry = 1
 " Identify the operating system & initialize values
 
 if !exists('$FCVIM_OS')
-    if strlen($Apple_PubSub_Socket_Render)
-        " 苹果系统识别
-        " 之后也可使用stridx($FCVIM_TOOLS, '/local/')>0判断
-        " 注：使用has('mac')或has('macunix')无效果
-        let $FCVIM_OS = 'mac'
-    elseif has('win32') || has('win32unix')
-        let $FCVIM_OS = 'win'
-    else
-        let $FCVIM_OS = 'unix'
-    endif
+	if strlen($Apple_PubSub_Socket_Render)
+		" 苹果系统识别
+		" 之后也可使用stridx($FCVIM_TOOLS, '/local/')>0判断
+		" 注：使用has('mac')或has('macunix')无效果
+		let $FCVIM_OS = 'mac'
+	elseif has('win32') || has('win32unix') || has('windows')
+		let $FCVIM_OS = 'windows'
+	else
+		let $FCVIM_OS = 'unix'
+	endif
 endif
 
 if !exists('$FCVIM')
-    let $FCVIM = expand('<sfile>:p:h:h')
+	let $FCVIM = expand('<sfile>:p:h:h')
 endif
 
 if !exists('$FCVIM_ROOT')
-    let $FCVIM_ROOT = expand('<sfile>:p:h')
+	let $FCVIM_ROOT = expand('<sfile>:p:h')
 endif
 
 if !exists('$FCVIM_TOOLS')
-    if $FCVIM_OS == 'mac'
-        let $FCVIM_TOOLS = '/usr/local/bin'
-    elseif $FCVIM_OS == 'win'
-        if finddir('c:/msys64') != ''
-            " 调用工具传的路径需要改成msys64支持的才能打开以下选项
-            " let $FCVIM_TOOLS = 'c:/msys64/usr/bin'
-        endif
-    endif
-    if $FCVIM_TOOLS == ''
-        if has('unix')
-            let $FCVIM_TOOLS = '/bin'
-        else
-            let $FCVIM_TOOLS = $FCVIM_ROOT . '/tools'
-        endif
-    endif
+	if $FCVIM_OS == 'mac'
+		let $FCVIM_TOOLS = '/usr/local/bin'
+	elseif $FCVIM_OS == 'windows'
+		let $FCVIM_TOOLS = $FCVIM_ROOT . '/tools'
+	else
+		let $FCVIM_TOOLS = '/bin'
+	endif
 endif
 
 if !exists('$FCVIM_TEMP')
-    if has('unix')
-        let $FCVIM_TEMP = '/tmp'
-    else
-        let $FCVIM_TEMP = $TEMP
-    endif
+	if $FCVIM_OS == 'windows'
+		let $FCVIM_TEMP = $TEMP
+	else
+		let $FCVIM_TEMP = '/tmp'
+	endif
 endif
 
 if !exists('$CSCOPE_DB')
-    " cscope add have some bugs, can't support chanese encoding.
-    " spacing path can use 'fnamemodify' method convert DOS8.3, but db so ugly.
-    " we have to load temp database.
-    let $CSCOPE_DB = findfile('cscope.out', '.;')
-    " if stridx($CSCOPE_DB, ' ') > 0
-        " let $CSCOPE_DB = $FCVIM_TEMP . '/cscope.out'
-    " endif
+	" cscope add have some bugs, can't support chanese encoding.
+	" spacing path can use 'fnamemodify' method convert DOS8.3, but db so ugly.
+	" we have to load temp database.
+	let $CSCOPE_DB = findfile('cscope.out', '.;')
+	" if stridx($CSCOPE_DB, ' ') > 0
+	" let $CSCOPE_DB = $FCVIM_TEMP . '/cscope.out'
+	" endif
 endif
 
 set nocscopeverbose
@@ -87,10 +79,10 @@ set cscopeprg=$FCVIM_TOOLS/cscope
 
 set runtimepath=$FCVIM_ROOT,$VIMRUNTIME
 
+source $FCVIM_ROOT/config.vim
 source $FCVIM_ROOT/script.vim
 source $FCVIM_ROOT/function.vim
 source $FCVIM_ROOT/hotkey.vim
-source $FCVIM_ROOT/config.vim
 
 "----------------------------------------------------------------------
 " autocmd
@@ -106,9 +98,9 @@ autocmd VimEnter * call FCVIM_BufferNumberMaps()
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
-     \ if line("'\"") > 0 && line("'\"") <= line("$") |
-     \   exe "normal! g`\"" |
-     \ endif
+			\ if line("'\"") > 0 && line("'\"") <= line("$") |
+			\   exe "normal! g`\"" |
+			\ endif
 
 " 每行超过80个的字符用下划线标示
 autocmd BufRead,BufNewFile *.s,*.asm,*.h,*.c,*.cpp,*.cc,*.java,*.cs,*.erl,*.hs,*.sh,*.lua,*.pl,*.pm,*.php,*.py,*.rb,*.erb,*.vim,*.js,*.css,*.xml,*.html,*.xhtml 2match Underlined /.\%81v/

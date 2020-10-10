@@ -23,13 +23,11 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 " Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-" Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
-" Plug 'Yggdroot/LeaderF', { 'do': './install.bat' }
 
 " Plug 'millermedeiros/vim-statline'
 " Plug 'fholgado/minibufexpl.vim'
 Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+" Plug 'vim-airline/vim-airline-themes'
 
 Plug 'vim-scripts/a.vim'
 
@@ -342,6 +340,71 @@ let g:airline#extensions#tabline#buffer_nr_format = '%s:'
 
 let g:airline_powerline_fonts = 1
 " let g:airline_symbols_ascii = 1
+
+" if !exists('g:airline_symbols')
+    " let g:airline_symbols = {}
+" endif
+
+" unicode symbols
+" let g:airline_left_sep = '»'
+" let g:airline_left_sep = '▶'
+" let g:airline_right_sep = '«'
+" let g:airline_right_sep = '◀'
+" let g:airline_symbols.crypt = '🔒'
+" let g:airline_symbols.linenr = '☰'
+" let g:airline_symbols.linenr = '␊'
+" let g:airline_symbols.linenr = '␤'
+" let g:airline_symbols.linenr = '¶'
+" let g:airline_symbols.maxlinenr = ''
+" let g:airline_symbols.maxlinenr = '㏑'
+" let g:airline_symbols.branch = '⎇'
+" let g:airline_symbols.paste = 'ρ'
+" let g:airline_symbols.paste = 'Þ'
+" let g:airline_symbols.paste = '∥'
+" let g:airline_symbols.spell = 'Ꞩ'
+" let g:airline_symbols.notexists = 'Ɇ'
+" let g:airline_symbols.whitespace = 'Ξ'
+
+" powerline symbols
+" let g:airline_left_sep = ''
+" let g:airline_left_alt_sep = ''
+" let g:airline_right_sep = ''
+" let g:airline_right_alt_sep = ''
+" let g:airline_symbols.branch = ''
+" let g:airline_symbols.readonly = ''
+" let g:airline_symbols.linenr = '☰'
+" let g:airline_symbols.maxlinenr = ''
+" let g:airline_symbols.dirty='⚡'
+
+" windows下更换反向箭头（默认反向箭头间隙太大）
+if $FCVIM_OS == 'windows'
+	let g:airline_right_sep = '◄'
+	let g:airline_right_alt_sep = '＜'
+endif
+
+"--------------------------------------------------------
+"   21.EasyColour 
+"--------------------------------------------------------
+
+" 尝试设定配色方案
+try
+    set background=dark " Change to light if you want the light variant
+    colorscheme bandit  " Change to your preferred colour scheme
+    " colorscheme desert_thl
+catch
+    colorscheme desert
+endtry
+
+" 光标聚焦颜色（推荐色：DarkGray,Brown,DarkYellow,SlateBlue,SeaGreen）
+if (colors_name == "bandit")
+    highlight CursorLine term=underline cterm=underline ctermbg=DarkYellow guibg=DarkYellow
+    highlight CursorColumn term=reverse ctermbg=DarkYellow guibg=DarkYellow
+elseif (colors_name == "desert")
+    highlight CursorLine term=underline cterm=underline ctermbg=DarkGray guibg=DarkGray
+    highlight CursorColumn term=reverse ctermbg=DarkGray guibg=DarkGray
+endif
+" 设置保护色
+" highlight Normal guifg=black guibg=#cce8cf
 
 
 

@@ -95,7 +95,7 @@ function! FCVIM_BufferNumberMap(buf)
         if "" == maparg('<leader>' . l:bufnr)
                     \ && "" == maparg('<leader>.' . l:bufnr)
             execute 'map <leader>' . l:bufnr . ' :buffer!' . l:bufnr . '<cr>'
-            execute 'map <leader>.' . l:bufnr . ' :MBEbw!' . l:bufnr . '<cr>'
+            execute 'map <leader>.' . l:bufnr . ' :bwipeout!' . l:bufnr . '<cr>'
             let s:BufValidNum += 1
         endif
     endif
@@ -135,7 +135,7 @@ function! FCVIM_BufferClose(buf)
 
     if FCVIM_BufferIsValid(l:bufnr)
         if s:BufValidNum > 1
-            execute 'MBEbw!' . l:bufnr
+            execute 'bwipeout!' . l:bufnr
         else
             execute 'qa'
         endif

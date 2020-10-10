@@ -117,21 +117,18 @@ set foldlevel=100           " 关闭自动折叠
 "----------------------------------------------------------------------
 " indent
 
-if !exists("g:loaded_linuxsty")
-" Use spaces instead of tabs
-set expandtab
+" if !exists("g:loaded_linuxsty")
+" set expandtab       " Use spaces instead of tabs
+" set smarttab        " Be smart when using tabs ;)
 
-" Be smart when using tabs ;)
-set smarttab
+" set tabstop=4               " 1 tab == 4 spaces
+" set shiftwidth=4            " indent number
 
-set tabstop=4               " 1 tab == 4 spaces
-set shiftwidth=4            " indent number
-
-set autoindent              " Auto indent
-set smartindent             " Smart indent
-set cindent                 " 自动缩进4空格
-set cinoptions=:0
-endif
+" set autoindent              " Auto indent
+" set smartindent             " Smart indent
+" set cindent                 " 自动缩进4空格
+" set cinoptions=:0
+" endif
 
 "set list                        "设置制表符成为可见的字符
 set listchars=tab:>-,trail:-    "使制表符以">---"显示, 同时行尾空格以"-"显示"
@@ -141,26 +138,6 @@ set listchars=tab:>-,trail:-    "使制表符以">---"显示, 同时行尾空格
 
 syntax enable                   " 打开语法高亮
 syntax on                       " 自动语法高亮
-
-" 尝试设定配色方案
-try
-    set background=dark " Change to light if you want the light variant
-    colorscheme bandit  " Change to your preferred colour scheme
-    " colorscheme desert_thl
-catch
-    colorscheme desert
-endtry
-
-" 光标聚焦颜色（推荐色：DarkGray,Brown,DarkYellow,SlateBlue,SeaGreen）
-if (colors_name == "bandit")
-    highlight CursorLine term=underline cterm=underline ctermbg=DarkYellow guibg=DarkYellow
-    highlight CursorColumn term=reverse ctermbg=DarkYellow guibg=DarkYellow
-elseif (colors_name == "desert")
-    highlight CursorLine term=underline cterm=underline ctermbg=DarkGray guibg=DarkGray
-    highlight CursorColumn term=reverse ctermbg=DarkGray guibg=DarkGray
-endif
-" 设置保护色
-" highlight Normal guifg=black guibg=#cce8cf
 
 " Set extra options when running in GUI mode
 if has("gui_running")
@@ -183,11 +160,11 @@ endif
 
 if has("multi_byte")
     set encoding=utf-8
-    if has("win32unix")
-        set termencoding=cp936
-    else
+    " if has("win32unix")
+        " set termencoding=cp936
+    " else
         set termencoding=utf-8
-    endif
+    " endif
     set formatoptions+=mM
     set fencs=utf-8,gbk
     set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
@@ -201,7 +178,8 @@ if has("multi_byte")
         source $VIMRUNTIME/menu.vim
         set langmenu=zh_CN.UTF-8
         language messages zh_CN.utf-8
-        set guifont=Inconsolata_for_Powerline:h12:cANSI   " 设置字体 以及中文支持
+        " set guifont=Inconsolata_for_Powerline:h12:cANSI   " 设置字体 以及中文支持
+	set guifont=Consolas_NF:h12:cANSI
     catch
         throw ""
     endtry

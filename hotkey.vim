@@ -31,9 +31,9 @@ map <leader>[ :NERDTreeToggle<CR>
 
 map <leader>] :TlistToggle<CR>
 
-map <leader>\ :YRShow<CR>
+" map <leader>\ :YRShow<CR>
 
-map <leader>' :MBEToggle<CR>
+" map <leader>' :MBEToggle<CR>
 
 " vimgrep搜索结果框
 map <leader>; :call FCVIM_ToggleQuickFix()<cr>
@@ -55,6 +55,11 @@ vnoremap <silent> <leader>G :call VisualSelection('G') \| emenu Foo.Bar<CR>
 map <silent> <unique> mm <Plug>Vm_toggle_sign
 map <unique> m, <Plug>Vm_goto_next_sign
 map <unique> m. <Plug>Vm_goto_prev_sign
+
+" fzf
+map <leader>f :Files<cr>
+map <leader>b :Buffers<cr>
+map <leader>fl :Lines<cr>
 
 "----------------------------------------------------------------------
 " misc
