@@ -43,14 +43,17 @@ Plug 'yqking/visualmark'
 
 Plug 'vim-scripts/TagHighlight'
 
-Plug 'vim-scripts/linuxsty.vim'
+" Plug 'vim-scripts/linuxsty.vim'
+Plug 'vivien/vim-linux-coding-style'
 
 Plug 'vim-scripts/STL-Syntax'
 
 " Plug 'mattn/vimtweak'
 
+Plug 'preservim/tagbar'
+
 " Unmanaged plugin (manually installed and updated)
-Plug $FCVIM_ROOT . '/plugged/taglist'
+" Plug $FCVIM_ROOT . '/plugged/taglist'
 Plug $FCVIM_ROOT . '/plugged/std_c'
 
 " Initialize plugin system
@@ -408,4 +411,10 @@ endif
 
 
 
+
+"--------------------------------------------------------
+"   22.tagbar 
+"--------------------------------------------------------
+let g:tagbar_ctags_bin = $FCVIM_TOOLS . '/ctags'
+let g:tagbar_width = 30
 

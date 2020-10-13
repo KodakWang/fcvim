@@ -28,7 +28,7 @@ if !exists('$FCVIM_OS')
 		" 之后也可使用stridx($FCVIM_TOOLS, '/local/')>0判断
 		" 注：使用has('mac')或has('macunix')无效果
 		let $FCVIM_OS = 'mac'
-	elseif has('win32') || has('win32unix') || has('windows')
+	elseif has('win32') || has('win32unix') || has('win95')
 		let $FCVIM_OS = 'windows'
 	else
 		let $FCVIM_OS = 'unix'

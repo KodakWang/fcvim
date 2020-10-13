@@ -29,7 +29,8 @@ let g:mapleader = ","
 " NERDTree 切换
 map <leader>[ :NERDTreeToggle<CR>
 
-map <leader>] :TlistToggle<CR>
+" map <leader>] :TlistToggle<CR>
+map <leader>] :TagbarToggle<CR>
 
 " map <leader>\ :YRShow<CR>
 
@@ -59,7 +60,7 @@ map <unique> m. <Plug>Vm_goto_prev_sign
 " fzf
 map <leader>f :Files<cr>
 map <leader>b :Buffers<cr>
-map <leader>fl :Lines<cr>
+map <leader>bl :Lines<cr>
 
 "----------------------------------------------------------------------
 " misc
