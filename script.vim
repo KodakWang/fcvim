@@ -50,7 +50,7 @@ Plug 'vim-scripts/STL-Syntax'
 
 " Plug 'mattn/vimtweak'
 
-Plug 'preservim/tagbar'
+Plug 'preservim/tagbar', { 'on':  'TagbarToggle' }
 
 " Unmanaged plugin (manually installed and updated)
 " Plug $FCVIM_ROOT . '/plugged/taglist'
@@ -333,8 +333,14 @@ endif
 "   20.airline 
 "--------------------------------------------------------
 let g:airline#extensions#tabline#enabled = 1
+" 标签显示buffer编号
 let g:airline#extensions#tabline#buffer_nr_show = 1
+" 标签显示buffer编号的格式
 let g:airline#extensions#tabline#buffer_nr_format = '%s:'
+" 标签只显示文件名
+let g:airline#extensions#tabline#fnamemod = ':t'
+" 制表符和空格对齐提示
+let g:airline#extensions#whitespace#mixed_indent_algo = 1
 
 " let g:airline#extensions#tabline#left_sep = ''
 " let g:airline#extensions#tabline#left_alt_sep = ''
@@ -416,5 +422,15 @@ endif
 "   22.tagbar 
 "--------------------------------------------------------
 let g:tagbar_ctags_bin = $FCVIM_TOOLS . '/ctags'
+" 让tagbar在页面左侧显示，默认右边
+" let g:tagbar_left = 1
+" 设置tagbar的宽度为30列，默认40
 let g:tagbar_width = 30
+" 这是tagbar一打开，光标即在tagbar页面内，默认在vim打开的文件内
+let g:tagbar_autofocus = 1     
+" 设置标签不排序，默认排序
+let g:tagbar_sort = 0                                         
+
+
+
 
