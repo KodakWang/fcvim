@@ -97,6 +97,8 @@ vmap <C-s> <Esc>:wa<cr>gv
 
 " Switch CWD to the directory of the open buffer
 map <leader>cd :cd %:p:h<cr>:pwd<cr>
+" cd top
+map <leader>cdt :call chdir(FCVIM_FindFileDirUpward('tags'))<cr>:pwd<cr>
 
 " Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
 nmap <M-j> mz:m+<cr>`z

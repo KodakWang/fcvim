@@ -11,15 +11,16 @@
 "
 
 if has('win32unix')
-    let $FCVIM = substitute($USERPROFILE, ':', '', '')
-    let $FCVIM = '/' . substitute($FCVIM, '\\', '/', 'g') . '/Documents/projects/fcvim'
+	let $FCVIM = substitute($USERPROFILE, ':', '', '')
+	let $FCVIM = '/' . substitute($FCVIM, '\\', '/', 'g') . '/Documents/projects/fcvim'
 elseif has('win32')
-    let $FCVIM = substitute($USERPROFILE, '\\', '/', 'g') . '/Documents/projects/fcvim'
-else
-    let $FCVIM = expand('<sfile>:p:h') . '/projects/fcvim'
+	let $FCVIM = substitute($USERPROFILE, '\\', '/', 'g') . '/Documents/projects/fcvim'
+endif
+if !isdirectory($FCVIM)
+	let $FCVIM = expand('<sfile>:p:h') . '/projects/fcvim'
 endif
 if !isdirectory($FCVIM) "finddir($FCVIM) == ''
-    let $FCVIM = expand('<sfile>:p:h')
+	let $FCVIM = expand('<sfile>:p:h')
 endif
 source $FCVIM/entry.vim
 
