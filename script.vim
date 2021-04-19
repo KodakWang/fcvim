@@ -15,32 +15,60 @@
 " - Avoid using standard Vim directory names like 'plugin'
 silent! call plug#begin($FCVIM_ROOT . '/plugged')
 
+"----------------------------------------------------------------------
 " Make sure you use single quotes
 
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
+"----------------------------------------------------------------------
+" deoplete
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+
+Plug 'Shougo/deoplete-clangx'
+" Change clang binary path
+" call deoplete#custom#var('clangx', 'clang_binary', '/usr/local/bin/clang')
+
+" Change clang options
+" call deoplete#custom#var('clangx', 'default_c_options', '')
+" call deoplete#custom#var('clangx', 'default_cpp_options', '')
+
+Plug 'Shougo/neoinclude.vim'
+
+"----------------------------------------------------------------------
 " Plugin outside ~/.vim/plugged with post-update hook
 " Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
+"----------------------------------------------------------------------
 " Plug 'millermedeiros/vim-statline'
 " Plug 'fholgado/minibufexpl.vim'
 Plug 'vim-airline/vim-airline'
 " Plug 'vim-airline/vim-airline-themes'
 
+"----------------------------------------------------------------------
 Plug 'vim-scripts/a.vim'
 
+"----------------------------------------------------------------------
 Plug 'preservim/nerdcommenter'
 
-Plug 'vim-scripts/EasyColour'
-
+"----------------------------------------------------------------------
 Plug 'vim-scripts/DoxygenToolkit.vim'
 
-Plug 'mbbill/echofunc'
+"----------------------------------------------------------------------
+" Plug 'mbbill/echofunc'
 
+"----------------------------------------------------------------------
 Plug 'yqking/visualmark'
 
+"----------------------------------------------------------------------
+Plug 'vim-scripts/EasyColour'
 Plug 'vim-scripts/TagHighlight'
 
 " Plug 'vim-scripts/linuxsty.vim'
@@ -48,13 +76,15 @@ Plug 'vivien/vim-linux-coding-style'
 
 Plug 'vim-scripts/STL-Syntax'
 
+Plug $FCVIM_ROOT . '/plugged/std_c'
+"----------------------------------------------------------------------
 " Plug 'mattn/vimtweak'
 
+"----------------------------------------------------------------------
 Plug 'preservim/tagbar', { 'on':  'TagbarToggle' }
 
 " Unmanaged plugin (manually installed and updated)
 " Plug $FCVIM_ROOT . '/plugged/taglist'
-Plug $FCVIM_ROOT . '/plugged/std_c'
 
 " Initialize plugin system
 call plug#end()
@@ -201,8 +231,8 @@ let g:alternateSearchPath = 'sfr:../src,sfr:../include,reg:|src[^/]|include/\1||
 "-----------------------------------------------------------
 "   8.echofunc  提示函数原形
 "-----------------------------------------------------------
-let g:EchoFuncKeyNext='<Esc>='
-let g:EchoFuncKeyPrev='<Esc>-'
+" let g:EchoFuncKeyNext='<Esc>='
+" let g:EchoFuncKeyPrev='<Esc>-'
 
 
 
@@ -430,6 +460,43 @@ let g:tagbar_width = 30
 let g:tagbar_autofocus = 1     
 " 设置标签不排序，默认排序
 let g:tagbar_sort = 0                                         
+
+
+
+
+"--------------------------------------------------------
+"   23.deoplete 
+"--------------------------------------------------------
+" 自启动
+let g:deoplete#enable_at_startup = 1
+
+" 用户输入至少4个字符时再开始提示补全
+call deoplete#custom#source('_',
+			\ 'min_pattern_length',
+			\ 4)
+
+" Disable the candidates in Comment/String syntaxes.
+call deoplete#custom#source('_',
+			\ 'disabled_syntaxes', ['Comment', 'String', 'Constant'])
+
+" Change the truncate width.
+call deoplete#custom#source('clangx',
+			\ 'max_abbr_width', 30)
+call deoplete#custom#source('clangx',
+			\ 'max_menu_width', 100)
+call deoplete#custom#source('clangx',
+			\ 'max_info_width', 200)
+call deoplete#custom#source('clangx',
+			\ 'max_kind_width', 40)
+
+" disable the buffer and around source.
+call deoplete#custom#option('ignore_sources', {'_': ['buffer', 'around']})
+
+" 补全结束或离开插入模式时，关闭预览窗口
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+
+" 头文件路径
+" let g:neoinclude#paths = ['./', '../include']
 
 
 
