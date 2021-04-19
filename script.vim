@@ -31,13 +31,6 @@ else
 endif
 
 Plug 'Shougo/deoplete-clangx'
-" Change clang binary path
-" call deoplete#custom#var('clangx', 'clang_binary', '/usr/local/bin/clang')
-
-" Change clang options
-" call deoplete#custom#var('clangx', 'default_c_options', '')
-" call deoplete#custom#var('clangx', 'default_cpp_options', '')
-
 Plug 'Shougo/neoinclude.vim'
 
 "----------------------------------------------------------------------
@@ -495,8 +488,21 @@ call deoplete#custom#option('ignore_sources', {'_': ['buffer', 'around']})
 " 补全结束或离开插入模式时，关闭预览窗口
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
+
 " 头文件路径
 " let g:neoinclude#paths = ['./', '../include']
+
+
+" Change clang binary path
+" call deoplete#custom#var('clangx', 'clang_binary', '/usr/bin/clang')
+
+" Change clang options
+" call deoplete#custom#var('clangx', 'default_c_options', '')
+" call deoplete#custom#var('clangx', 'default_cpp_options', '')
+
+if has('win32unix')
+let g:python3_host_prog = '/usr/bin/python'
+endif
 
 
 
