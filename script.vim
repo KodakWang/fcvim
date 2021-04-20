@@ -65,13 +65,13 @@ Plug 'vim-scripts/DoxygenToolkit.vim'
 Plug 'yqking/visualmark'
 
 "----------------------------------------------------------------------
+Plug 'jeaye/color_coded'
 Plug 'vim-scripts/EasyColour'
-Plug 'vim-scripts/TagHighlight'
+" Plug 'vim-scripts/TagHighlight'
 
-" Plug 'vim-scripts/linuxsty.vim'
 Plug 'vivien/vim-linux-coding-style'
 
-Plug 'vim-scripts/STL-Syntax'
+" Plug 'vim-scripts/STL-Syntax'
 
 Plug $FCVIM_ROOT . '/plugged/std_c'
 "----------------------------------------------------------------------
@@ -494,6 +494,7 @@ call deoplete#custom#source('clangx',
 call deoplete#custom#source('clangx',
 			\ 'max_kind_width', 40)
 
+" libclang: '/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
 " Change clang binary path
 " call deoplete#custom#var('clangx', 'clang_binary', '/usr/bin/clang')
 
@@ -508,9 +509,9 @@ autocmd InsertLeave * if pumvisible() == 0 | pclose | endif
 " 头文件路径
 " let g:neoinclude#_paths = {}
 let g:neoinclude#paths = {
-			\'c': './,../include,../references,/usr/local/include',
-			\'cpp': './,../include,../references,/usr/local/include',
-			\}
+			\ 'c': './,../include,../references,/usr/local/include',
+			\ 'cpp': './,../include,../references,/usr/local/include',
+			\ }
 
 if has('win32unix')
 let g:python3_host_prog = '/usr/bin/python'
