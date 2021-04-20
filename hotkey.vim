@@ -151,7 +151,8 @@ map <leader>` :call FCVIM_ToggleCursorLine()<CR>
 map <leader><tab> :call FCVIM_ToggleList()<cr>
 
 " 智能tab映射，保证代码前缩进为制表符，代码后则映射为空格
-inoremap <silent><tab> <c-r>=FCVIM_KeySmartTab(&shiftwidth)<cr>
+" inoremap <silent><tab> <c-r>=FCVIM_KeySmartTab(&shiftwidth)<cr>
+inoremap <silent><expr><tab> FCVIM_KeySmartTab()
 
 " 在需要搜索时打开自动跳转
 map / :set incsearch \| unmap /<cr>/

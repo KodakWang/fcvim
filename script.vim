@@ -30,8 +30,12 @@ else
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
 
+" c/c++/objc/objc++
 Plug 'Shougo/deoplete-clangx'
 Plug 'Shougo/neoinclude.vim'
+
+" tags
+" Plug 'deoplete-plugins/deoplete-tag'
 
 "----------------------------------------------------------------------
 " Plugin outside ~/.vim/plugged with post-update hook
@@ -463,14 +467,22 @@ let g:tagbar_sort = 0
 " 自启动
 let g:deoplete#enable_at_startup = 1
 
+" disable the buffer and around source.
+call deoplete#custom#option('ignore_sources', {'_': ['buffer', 'around']})
+
+" others
+call deoplete#custom#option({
+			\ 'auto_complete_delay': 10,
+			\ 'auto_refresh_delay': 1000,
+			\ 'max_list': 200,
+			\ 'smart_case': v:false,
+			\ 'camel_case': v:false,
+			\ })
+
 " 用户输入至少4个字符时再开始提示补全
 call deoplete#custom#source('_',
 			\ 'min_pattern_length',
-			\ 4)
-
-" Disable the candidates in Comment/String syntaxes.
-call deoplete#custom#source('_',
-			\ 'disabled_syntaxes', ['Comment', 'String', 'Constant'])
+			\ 3)
 
 " Change the truncate width.
 call deoplete#custom#source('clangx',
@@ -482,23 +494,23 @@ call deoplete#custom#source('clangx',
 call deoplete#custom#source('clangx',
 			\ 'max_kind_width', 40)
 
-" disable the buffer and around source.
-call deoplete#custom#option('ignore_sources', {'_': ['buffer', 'around']})
-
-" 补全结束或离开插入模式时，关闭预览窗口
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-
-
-" 头文件路径
-" let g:neoinclude#paths = ['./', '../include']
-
-
 " Change clang binary path
 " call deoplete#custom#var('clangx', 'clang_binary', '/usr/bin/clang')
 
 " Change clang options
 " call deoplete#custom#var('clangx', 'default_c_options', '')
 " call deoplete#custom#var('clangx', 'default_cpp_options', '')
+
+" 补全结束或离开插入模式时，关闭预览窗口
+" autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+autocmd InsertLeave * if pumvisible() == 0 | pclose | endif
+
+" 头文件路径
+" let g:neoinclude#_paths = {}
+let g:neoinclude#paths = {
+			\'c': './,../include,../references,/usr/local/include',
+			\'cpp': './,../include,../references,/usr/local/include',
+			\}
 
 if has('win32unix')
 let g:python3_host_prog = '/usr/bin/python'

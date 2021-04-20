@@ -382,7 +382,7 @@ endfunction
 "----------------------------------------------------------------------
 " key
 
-function FCVIM_KeySmartTab(sw)
+function FCVIM_KeySmartTab()
     " let l:prev_char = getline('.')[col('.') - 2]
     " echo char2nr(l:prev_char)
 
@@ -393,10 +393,20 @@ function FCVIM_KeySmartTab(sw)
     " endif
     " return "\<tab>"
 
-    if (1 == col('.') || "\<tab>" == getline('.')[col('.') - 2])
+    let l:cur_col = col('.')
+    let l:cur_line = getline('.')
+    " 补全控制
+    if (pumvisible())
+	    return "\<C-n>"
+    elseif (l:cur_line[0] == '#' && l:cur_line[l:cur_col - 2]  == '/')
+	    return deoplete#manual_complete(['file/include'])
+    endif
+
+    " 制表空格
+    if (1 == l:cur_col || "\<tab>" == l:cur_line[l:cur_col - 2])
         return "\<tab>"
     else
-        return repeat(' ', a:sw - (virtcol('.') - 1) % a:sw)
+        return repeat(' ', &shiftwidth - (virtcol('.') - 1) % &shiftwidth)
     endif
 endfunction
 
