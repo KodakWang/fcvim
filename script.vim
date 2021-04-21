@@ -530,6 +530,11 @@ endif
 "   24.coc
 "--------------------------------------------------------
 
+if has('win32')
+" let g:coc_node_path = 'C:/Program Files/nodejs/node'
+let g:coc_node_path = $FCVIM_TOOLS . '/node'
+endif
+
 let g:coc_global_extensions = ['coc-json', 'coc-clangd']
 
 call coc#config('suggest', {
@@ -542,10 +547,21 @@ call coc#config('coc.source', {
 			\ 'around': { 'enable': 0 },
 			\ 'buffer': { 'enable': 0 },
 			\})
+if has('win32')
+" call coc#config('clangd', {
+			" \ 'path': 'C:/Program Files/LLVM/bin/clangd',
+			" \ 'semanticHighlighting': 1,
+			" \})
+call coc#config('clangd', {
+			\ 'path': $FCVIM_TOOLS . '/clangd',
+			\ 'semanticHighlighting': 1,
+			\})
+else
 call coc#config('clangd', {
 			\ 'path': '/Library/Developer/CommandLineTools/usr/bin/clangd',
 			\ 'semanticHighlighting': 1,
 			\})
+endif
 
 
 
