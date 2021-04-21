@@ -382,6 +382,10 @@ endfunction
 "----------------------------------------------------------------------
 " key
 
+function FCVIM_CanCompletion(ch)
+	return stridx("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_.>/", a:ch) >= 0
+endfunction
+
 function FCVIM_KeySmartTab()
     " let l:prev_char = getline('.')[col('.') - 2]
     " echo char2nr(l:prev_char)
@@ -398,8 +402,9 @@ function FCVIM_KeySmartTab()
     " 补全控制
     if (pumvisible())
 	    return "\<C-n>"
-    elseif (l:cur_line[0] == '#' && l:cur_line[l:cur_col - 2]  == '/')
-	    return deoplete#manual_complete(['file/include'])
+    elseif (FCVIM_CanCompletion(l:cur_line[l:cur_col - 2]))
+	    " return deoplete#manual_complete(['file/include'])
+	    return coc#refresh()
     endif
 
     " 制表空格
@@ -410,4 +415,27 @@ function FCVIM_KeySmartTab()
     endif
 endfunction
 
+if 0
+	let g:fcvim_cur_line = 0
+	let g:fcvim_cur_col = 0
+	function FCVIM_KeySmartBackspace2()
+		let l:cur_col = col('.')
+		let l:cur_line = line('.')
+		let l:enable = (g:fcvim_cur_line == l:cur_line) && (g:fcvim_cur_col == l:cur_col + 1)
+		let g:fcvim_cur_line = l:cur_line
+		let g:fcvim_cur_col = l:cur_col
+		if ((pumvisible() || l:enable) && 
+					\ FCVIM_CanCompletion(getline('.')[col('.') - 3]))
+			return "\<backspace>\<tab>"
+		endif
+		return "\<backspace>"
+	endfunction
+endif
+
+function FCVIM_KeySmartBackspace()
+	if (FCVIM_CanCompletion(getline('.')[col('.') - 3]))
+		return "\<backspace>\<tab>"
+	endif
+	return "\<backspace>"
+endfunction
 

@@ -22,6 +22,7 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
 "----------------------------------------------------------------------
 " deoplete
+if 0
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -36,6 +37,11 @@ Plug 'Shougo/neoinclude.vim'
 
 " tags
 " Plug 'deoplete-plugins/deoplete-tag'
+endif
+"----------------------------------------------------------------------
+" coc
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'jackguo380/vim-lsp-cxx-highlight'
 
 "----------------------------------------------------------------------
 " Plugin outside ~/.vim/plugged with post-update hook
@@ -65,7 +71,7 @@ Plug 'vim-scripts/DoxygenToolkit.vim'
 Plug 'yqking/visualmark'
 
 "----------------------------------------------------------------------
-Plug 'jeaye/color_coded'
+" Plug 'jeaye/color_coded'
 Plug 'vim-scripts/EasyColour'
 " Plug 'vim-scripts/TagHighlight'
 
@@ -73,7 +79,7 @@ Plug 'vivien/vim-linux-coding-style'
 
 " Plug 'vim-scripts/STL-Syntax'
 
-Plug $FCVIM_ROOT . '/plugged/std_c'
+" Plug $FCVIM_ROOT . '/plugged/std_c'
 "----------------------------------------------------------------------
 " Plug 'mattn/vimtweak'
 
@@ -464,6 +470,7 @@ let g:tagbar_sort = 0
 "--------------------------------------------------------
 "   23.deoplete 
 "--------------------------------------------------------
+if 0
 " 自启动
 let g:deoplete#enable_at_startup = 1
 
@@ -516,6 +523,29 @@ let g:neoinclude#paths = {
 if has('win32unix')
 let g:python3_host_prog = '/usr/bin/python'
 endif
+
+endif
+
+"--------------------------------------------------------
+"   24.coc
+"--------------------------------------------------------
+
+let g:coc_global_extensions = ['coc-json', 'coc-clangd']
+
+call coc#config('suggest', {
+			\ 'minTriggerInputLength': 3,
+			\})
+call coc#config('coc.preferences', {
+			\ 'rootPatterns': ['.vns', '.svn', '.git', '.hg', '.projections.json'],
+			\})
+call coc#config('coc.source', {
+			\ 'around': { 'enable': 0 },
+			\ 'buffer': { 'enable': 0 },
+			\})
+call coc#config('clangd', {
+			\ 'path': '/Library/Developer/CommandLineTools/usr/bin/clangd',
+			\ 'semanticHighlighting': 1,
+			\})
 
 
 

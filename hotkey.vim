@@ -62,8 +62,28 @@ map <leader>f :Files<cr>
 map <leader>b :Buffers<cr>
 map <leader>bl :Lines<cr>
 
+" coc
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+if has("mac") || has("macunix")
+	" fix backspace issue: remove prev char loss preview on input mode.
+	imap <expr><backspace> FCVIM_KeySmartBackspace()
+endif
+
 "----------------------------------------------------------------------
 " misc
+
+" vim默认键位
+" <C-o> 跳转到上一个光标停留的位置
+" <C-i> 跳转到下一个光标停留的位置
 
 " 不受行距影响的上下移动（为了兼容XPT）
 " map j gj
@@ -153,6 +173,7 @@ map <leader><tab> :call FCVIM_ToggleList()<cr>
 " 智能tab映射，保证代码前缩进为制表符，代码后则映射为空格
 " inoremap <silent><tab> <c-r>=FCVIM_KeySmartTab(&shiftwidth)<cr>
 inoremap <silent><expr><tab> FCVIM_KeySmartTab()
+inoremap <silent><expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 " 在需要搜索时打开自动跳转
 map / :set incsearch \| unmap /<cr>/

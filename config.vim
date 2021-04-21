@@ -32,7 +32,7 @@ set number                      " 显示行号
 " set statusline=\ %<%F[%1*%M%*%n%R%H]%=\ %y\ %0(%{&fileformat}\ %{&encoding}\ \ \ \ \ \ \ \ %8(%l,%c%)\ \ \ \ \ \ \ \ %3p%%%)\ 
 " endif
 set wildmenu                    " 打开状态栏命令行补全提示
-" set cmdheight=2                 " Height of the command bar
+set cmdheight=2                 " Height of the command bar
 
 set wildignore=*.o,*.obj        " 打开文件选择忽略编译文件
 
