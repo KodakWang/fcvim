@@ -530,9 +530,8 @@ endif
 "   24.coc
 "--------------------------------------------------------
 
-if has('win32')
-" let g:coc_node_path = 'C:/Program Files/nodejs/node'
-let g:coc_node_path = $FCVIM_TOOLS . '/node'
+if $FCVIM_OS == 'windows'
+	let g:coc_node_path = 'C:/Program Files/nodejs/node'
 endif
 
 let g:coc_global_extensions = ['coc-json', 'coc-clangd']
@@ -547,7 +546,7 @@ call coc#config('coc.source', {
 			\ 'around': { 'enable': 0 },
 			\ 'buffer': { 'enable': 0 },
 			\})
-if has('win32')
+if $FCVIM_OS == 'windows'
 " call coc#config('clangd', {
 			" \ 'path': 'C:/Program Files/LLVM/bin/clangd',
 			" \ 'semanticHighlighting': 1,

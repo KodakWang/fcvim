@@ -35,12 +35,16 @@ if !exists('$FCVIM_OS')
 	endif
 endif
 
-if !exists('$FCVIM')
-	let $FCVIM = expand('<sfile>:p:h:h')
-endif
+" if !exists('$FCVIM')
+	" let $FCVIM = expand('<sfile>:p:h:h')
+" endif
 
 if !exists('$FCVIM_ROOT')
 	let $FCVIM_ROOT = expand('<sfile>:p:h')
+	" 路径转换
+	if has("win32unix")
+		let $FCVIM_ROOT = strpart($FCVIM_ROOT, 1, 1) . ':' . strpart($FCVIM_ROOT, 2)
+	endif
 endif
 
 if !exists('$FCVIM_TOOLS')
