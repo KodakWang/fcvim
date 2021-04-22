@@ -398,17 +398,17 @@ function FCVIM_KeySmartTab()
     " return "\<tab>"
 
     let l:cur_col = col('.')
-    let l:cur_line = getline('.')
+    let l:cur_line_str = getline('.')
     " 补全控制
     if (pumvisible())
 	    return "\<C-n>"
-    elseif (FCVIM_CanCompletion(l:cur_line[l:cur_col - 2]))
+    elseif (FCVIM_CanCompletion(l:cur_line_str[l:cur_col - 2]))
 	    " return deoplete#manual_complete(['file/include'])
 	    return coc#refresh()
     endif
 
     " 制表空格
-    if (1 == l:cur_col || "\<tab>" == l:cur_line[l:cur_col - 2])
+    if (1 == l:cur_col || "\<tab>" == l:cur_line_str[l:cur_col - 2])
         return "\<tab>"
     else
         return repeat(' ', &shiftwidth - (virtcol('.') - 1) % &shiftwidth)
@@ -433,7 +433,11 @@ if 0
 endif
 
 function FCVIM_KeySmartBackspace()
-	if (FCVIM_CanCompletion(getline('.')[col('.') - 3]))
+	" let l:cur_line = line('.')
+	let l:cur_col = col('.')
+	let l:cur_line_str = getline('.')
+	if (l:cur_col > 2 && FCVIM_CanCompletion(l:cur_line_str[l:cur_col - 3]) &&
+				\ FCVIM_CanCompletion(l:cur_line_str[l:cur_col - 2]))
 		return "\<backspace>\<tab>"
 	endif
 	return "\<backspace>"
