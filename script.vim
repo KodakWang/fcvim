@@ -540,7 +540,7 @@ let g:coc_global_extensions = ['coc-json', 'coc-clangd']
 call coc#config('suggest', {
 			\ 'minTriggerInputLength': 3,
 			\ 'maxCompleteItemCount': 100,
-			\ 'autoTrigger': 'always',
+			\ 'autoTrigger': 'none',
 			\})
 call coc#config('suggest.completionItemKindLabels', {
 			\ "keyword": "\uf1de",

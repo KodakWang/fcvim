@@ -73,10 +73,8 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-if has("mac") || has("macunix")
-	" fix backspace issue: remove prev char loss preview on input mode.
-	imap <expr><backspace> FCVIM_KeySmartBackspace()
-endif
+" fix backspace issue: remove prev char loss preview on input mode.
+imap <expr><backspace> FCVIM_KeySmartBackspace()
 " Use <c-s-2> to trigger completion.
 inoremap <silent><expr> <c-@> coc#refresh()
 nmap <silent><leader>is :CocCommand clangd.switchSourceHeader<cr>
@@ -174,11 +172,14 @@ map <leader>` :call FCVIM_ToggleCursorLine()<CR>
 map <leader><tab> :call FCVIM_ToggleList()<cr>
 
 " 智能tab映射，保证代码前缩进为制表符，代码后则映射为空格
-" inoremap <silent><tab> <c-r>=FCVIM_KeySmartTab(&shiftwidth)<cr>
+" inoremap <silent><tab> <c-r>=FCVIM_KeySmartTab()<cr>
 inoremap <silent><expr><tab> FCVIM_KeySmartTab()
 inoremap <silent><expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 " 在需要搜索时打开自动跳转
 map / :set incsearch \| unmap /<cr>/
 autocmd CmdlineLeave * set noincsearch | map / :set incsearch \| unmap /<cr>/
+
+autocmd InsertCharPre * call FCVIM_DelayCompletion()
+autocmd InsertLeave * call FCVIM_StopTimer()
 

@@ -380,7 +380,7 @@ function! FCVIM_CommentKeysUpdate(max)
 endfunction
 
 "----------------------------------------------------------------------
-" key
+" extension
 
 function FCVIM_CanCompletion(ch)
 	return stridx("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_.>/", a:ch) >= 0
@@ -409,7 +409,8 @@ function FCVIM_KeySmartTab()
 
     " 制表空格
     if (1 == l:cur_col || "\<tab>" == l:cur_line_str[l:cur_col - 2])
-        return "\<tab>"
+        call feedkeys("\<tab>", 'in')
+	return ''
     else
         return repeat(' ', &shiftwidth - (virtcol('.') - 1) % &shiftwidth)
     endif
@@ -442,5 +443,28 @@ function FCVIM_KeySmartBackspace()
 		return "\<backspace>\<c-@>"
 	endif
 	return "\<backspace>"
+endfunction
+
+function FCVIM_StopTimer()
+	if exists('g:fcvim_timer')
+		call timer_stop(g:fcvim_timer)
+	endif
+endfunction
+
+function FCVIM_StartTimer(timeout, callback)
+	call FCVIM_StopTimer()
+	:let g:fcvim_timer = timer_start(a:timeout, a:callback)
+endfunction
+
+function FCVIM_Completion(timer)
+	" echo col('.')
+	if (FCVIM_CanCompletion(getline('.')[col('.') - 2])) 
+		call coc#start()
+	endif
+endfunction
+
+function FCVIM_DelayCompletion()
+	call coc#_cancel()
+	call FCVIM_StartTimer(200, 'FCVIM_Completion')
 endfunction
 
