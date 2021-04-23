@@ -77,6 +77,9 @@ if has("mac") || has("macunix")
 	" fix backspace issue: remove prev char loss preview on input mode.
 	imap <expr><backspace> FCVIM_KeySmartBackspace()
 endif
+" Use <c-s-2> to trigger completion.
+inoremap <silent><expr> <c-@> coc#refresh()
+nmap <silent><leader>is :CocCommand clangd.switchSourceHeader<cr>
 
 "----------------------------------------------------------------------
 " misc

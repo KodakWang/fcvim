@@ -402,9 +402,9 @@ function FCVIM_KeySmartTab()
     " 补全控制
     if (pumvisible())
 	    return "\<C-n>"
-    elseif (FCVIM_CanCompletion(l:cur_line_str[l:cur_col - 2]))
-	    " return deoplete#manual_complete(['file/include'])
-	    return coc#refresh()
+    " elseif (FCVIM_CanCompletion(l:cur_line_str[l:cur_col - 2]))
+	    " " return deoplete#manual_complete(['file/include'])
+	    " return coc#refresh()
     endif
 
     " 制表空格
@@ -438,7 +438,8 @@ function FCVIM_KeySmartBackspace()
 	let l:cur_line_str = getline('.')
 	if (l:cur_col > 2 && FCVIM_CanCompletion(l:cur_line_str[l:cur_col - 3]) &&
 				\ FCVIM_CanCompletion(l:cur_line_str[l:cur_col - 2]))
-		return "\<backspace>\<tab>"
+		" return "\<backspace>\<tab>"
+		return "\<backspace>\<c-@>"
 	endif
 	return "\<backspace>"
 endfunction

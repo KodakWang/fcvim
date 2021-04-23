@@ -56,7 +56,8 @@ Plug 'vim-airline/vim-airline'
 " Plug 'vim-airline/vim-airline-themes'
 
 "----------------------------------------------------------------------
-Plug 'vim-scripts/a.vim'
+" Plug 'vim-scripts/a.vim'
+" using :CocCommand clangd.switchSourceHeader instend
 
 "----------------------------------------------------------------------
 Plug 'preservim/nerdcommenter'
@@ -538,29 +539,59 @@ let g:coc_global_extensions = ['coc-json', 'coc-clangd']
 
 call coc#config('suggest', {
 			\ 'minTriggerInputLength': 3,
+			\ 'maxCompleteItemCount': 100,
+			\ 'autoTrigger': 'always',
 			\})
+call coc#config('suggest.completionItemKindLabels', {
+			\ "keyword": "\uf1de",
+			\ "variable": "\ue79b",
+			\ "value": "\uf89f",
+			\ "operator": "\u03a8",
+			\ "constructor": "\uf0ad",
+			\ "function": "\u0192",
+			\ "reference": "\ufa46",
+			\ "constant": "\uf8fe",
+			\ "method": "\uf09a",
+			\ "struct": "\ufb44",
+			\ "class": "\uf0e8",
+			\ "interface": "\uf417",
+			\ "text": "\ue612",
+			\ "enum": "\uf435",
+			\ "enumMember": "\uf02b",
+			\ "module": "\uf40d",
+			\ "color": "\ue22b",
+			\ "property": "\ue624",
+			\ "field": "\uf9be",
+			\ "unit": "\uf475",
+			\ "event": "\ufacd",
+			\ "file": "\uf723",
+			\ "folder": "\uf114",
+			\ "snippet": "\ue60b",
+			\ "typeParameter": "\uf728",
+			\ "default": "\uf29c"
+			\})
+" call coc#config('diagnostic', {
+			" \ 'enable': 0,
+			" \})
 call coc#config('coc.preferences', {
 			\ 'rootPatterns': ['.vns', '.svn', '.git', '.hg', '.projections.json'],
 			\})
 call coc#config('coc.source', {
 			\ 'around': { 'enable': 0 },
 			\ 'buffer': { 'enable': 0 },
+			\ 'file': { 'enable': 0 },
 			\})
 if $FCVIM_OS == 'windows'
-" call coc#config('clangd', {
-			" \ 'path': 'C:/Program Files/LLVM/bin/clangd',
-			" \ 'semanticHighlighting': 1,
-			" \})
-call coc#config('clangd', {
-			\ 'path': $FCVIM_TOOLS . '/clangd',
-			\ 'semanticHighlighting': 1,
-			\})
+	" maybe path: 'C:/Program Files/LLVM/bin/clangd',
+	let $FCVIM_TOOLS_CLANGD = $FCVIM_TOOLS . '/clangd'
 else
-call coc#config('clangd', {
-			\ 'path': '/Library/Developer/CommandLineTools/usr/bin/clangd',
-			\ 'semanticHighlighting': 1,
-			\})
+	let $FCVIM_TOOLS_CLANGD = '/Library/Developer/CommandLineTools/usr/bin/clangd'
 endif
+call coc#config('clangd', {
+			\ 'path': $FCVIM_TOOLS_CLANGD,
+			\ 'semanticHighlighting': 1,
+			\ 'arguments': ['-j=4', '--pch-storage=memory'],
+			\})
 
 
 
