@@ -657,6 +657,10 @@ call coc#config('clangd', {
 			\ 'arguments': ['-j=4', '--pch-storage=memory'],
 			\})
 
+" 禁用插件的补全列表刷新
+imap <expr><Plug>CocRefresh ''
+" 备用临时命令
+inoremap <silent><Plug>CocRefreshTmp <C-r>=coc#_complete()<CR>
 
 
 

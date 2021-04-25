@@ -383,8 +383,15 @@ endfunction
 "----------------------------------------------------------------------
 " extension
 
+function FCVIM_IsWordChar(ch)
+	return stridx("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_", a:ch) >= 0
+endfunction
+
 function FCVIM_CanCompletion(ch)
-	return stridx("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_.>/", a:ch) >= 0
+	if (FCVIM_IsWordChar(a:ch))
+		return v:true
+	endif
+	return stridx(".>/", a:ch) >= 0
 endfunction
 
 function FCVIM_StopTimer()
@@ -398,40 +405,75 @@ function FCVIM_StartTimer(timeout, callback)
 	:let g:fcvim_timer = timer_start(a:timeout, a:callback)
 endfunction
 
+function FCVIM_GetCurWord()
+	let cword = ''
+	let cur_line_str = getline('.')
+	let pos = col('.')
+	while pos > 0
+		let pos = pos - 1
+		if (!FCVIM_IsWordChar(cur_line_str[pos]))
+			break
+		endif
+		let cword = cur_line_str[pos] . cword
+	endwhile
+	return cword
+endfunction
+
 function FCVIM_CompletionCallback(err, val)
-	echo a:val
+	" call coc#_complete()
+	" let candidates = get(g:coc#_context, 'candidates', [])
+	" call insert(items, {"word": "test"})
+	let items = []
+	" let cword = expand("<cword>")
+	let cword = FCVIM_GetCurWord()
+	let cwordlen = strlen(cword)
+	" echo cword
+	" echo g:coc#_context['candidates']
+	let minlen = cwordlen * 100
+	for item in g:coc#_context['candidates']
+		if (cwordlen && stridx(item['word'], cword) == 0)
+			let len = strlen(item['word'])
+			if (len < minlen)
+				let minlen = len
+				call insert(items, item)
+			else
+				call add(items, item)
+			endif
+		endif
+	endfor
+	call complete(g:coc#_context.start + 1, items)
 endfunction
 
-function FCVIM_CompletionCallbackTest(...)
-	let l:lst = {"call": '123', "call2": '234'}
-	echo extend(l:lst, get(a:, 1, {}))
-endfunction
+" function FCVIM_CompletionCallbackTest(...)
+	" let l:lst = {"call": '123', "call2": '234'}
+	" echo extend(l:lst, get(a:, 1, {}))
+" endfunction
 
-function! s:AsyncRequest(name, args) abort
-	call coc#rpc#notify(a:name,
-				\ coc#util#get_complete_option())
-	return ''
-endfunction
-
+let g:fcvim_completion_enable = v:true
 function! FCVIM_Completion(timer) abort
 	" echo col('.')
 	if (FCVIM_CanCompletion(getline('.')[col('.') - 2]))
-		" :set paste
 		" call FCVIM_CompletionCallbackTest({'sdf': 'qwe'})
-		
-		call coc#start()
-		" call coc#rpc#request_async('startCompletion',
-					" \ coc#util#get_complete_option(),
-					" \ funcref('FCVIM_CompletionCallback'))
-		" call s:AsyncRequest("startCompletion", '')
-		" call CocActionAsync("startCompletion", coc#util#get_complete_option())
-		" :set nopaste
-		" call coc#_complete()
+		if (g:fcvim_completion_enable)
+			" call coc#start()
+			call coc#rpc#request_async('startCompletion',
+						\ [coc#util#get_complete_option()],
+						\ funcref('FCVIM_CompletionCallback'))
+			" let g:fcvim_completion_enable = v:false
+		else
+			call FCVIM_CompletionCallback(v:null, v:null)
+		endif
 	endif
 endfunction
 
 function FCVIM_DelayCompletion()
-	call coc#_cancel()
+	" call coc#_cancel()
+	if pumvisible()
+		let g:coc#_context = {'start': 0, 'preselect': -1,'candidates': []}
+		call feedkeys("\<Plug>CocRefreshTmp", 'i')
+		call coc#rpc#notify('stopCompletion', [])
+	endif
+
 	call FCVIM_StartTimer(500, 'FCVIM_Completion')
 endfunction
 
