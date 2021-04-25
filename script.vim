@@ -85,7 +85,8 @@ Plug 'vivien/vim-linux-coding-style'
 " Plug 'mattn/vimtweak'
 
 "----------------------------------------------------------------------
-Plug 'preservim/tagbar', { 'on':  'TagbarToggle' }
+Plug 'liuchengxu/vista.vim'
+" Plug 'preservim/tagbar', { 'on':  'TagbarToggle' }
 
 " Unmanaged plugin (manually installed and updated)
 " Plug $FCVIM_ROOT . '/plugged/taglist'
@@ -142,7 +143,11 @@ let NERDTreeWinPos='left'
 
 "-----------------------------------------------------------
 "   1.taglist   查看函数列表（需要ctags支持）
+"     tagbar
+"     vista
 "-----------------------------------------------------------
+" taglist
+if 0
 " 不支持中文问题： silent echo ctags_cmd 替换为 silent echon ctags_cmd 生成的 taglist.cmd 将不包含换行,即无所谓 fileformat
 let Tlist_Ctags_Cmd = '"' . $FCVIM_TOOLS . '/ctags"'
 let Tlist_Show_One_File = 1            " 不同时显示多个文件的tag，只显示当前文件的
@@ -156,7 +161,63 @@ let Tlist_Enable_Fold_Column = 0
 let Tlist_Process_File_Always = 1
 let Tlist_Display_Prototype = 0
 let Tlist_Compact_Format = 1
+endif
 
+"-----------------------------------------------------------
+" tagbar
+if 0
+let g:tagbar_ctags_bin = $FCVIM_TOOLS . '/ctags'
+" 让tagbar在页面左侧显示，默认右边
+" let g:tagbar_left = 1
+" 设置tagbar的宽度为30列，默认40
+let g:tagbar_width = 30
+" 这是tagbar一打开，光标即在tagbar页面内，默认在vim打开的文件内
+let g:tagbar_autofocus = 1
+" 设置标签不排序，默认排序
+let g:tagbar_sort = 0
+endif
+
+"-----------------------------------------------------------
+" vista
+let g:vista_sidebar_width = 35
+" How each level is indented and what to prepend.
+" This could make the display more compact or more spacious.
+" e.g., more compact: ["▸ ", ""]
+" Note: this option only works for the kind renderer, not the tree renderer.
+let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
+
+" Executive used when opening vista sidebar without specifying it.
+" See all the avaliable executives via `:echo g:vista#executives`.
+let g:vista_default_executive = 'ctags'
+
+" Set the executive for some filetypes explicitly. Use the explicit executive
+" instead of the default one for these filetypes when using `:Vista` without
+" specifying the executive.
+let g:vista_executive_for = {
+  \ 'cpp': 'coc',
+  \ 'c': 'coc',
+  \ }
+
+" Declare the command including the executable and options used to generate ctags output
+" for some certain filetypes.The file path will be appened to your custom command.
+" For example:
+let g:vista_ctags_cmd = {
+      \ 'haskell': 'hasktags -x -o - -c',
+      \ }
+
+" To enable fzf's preview window set g:vista_fzf_preview.
+" The elements of g:vista_fzf_preview will be passed as arguments to fzf#vim#with_preview()
+" For example:
+let g:vista_fzf_preview = ['right:50%']
+
+" Ensure you have installed some decent font to show these pretty symbols, then you can enable icon for the kind.
+let g:vista#renderer#enable_icon = 1
+
+" The default icons can't be suitable for all the filetypes, you can extend it as you wish.
+let g:vista#renderer#icons = {
+\   "function": "\uf794",
+\   "variable": "\uf71b",
+\  }
 
 
 
@@ -420,10 +481,18 @@ let g:airline_powerline_fonts = 1
 " let g:airline_symbols.dirty='⚡'
 
 " windows下更换反向箭头（默认反向箭头间隙太大）
-if $FCVIM_OS == 'windows'
-	let g:airline_right_sep = '◄'
-	let g:airline_right_alt_sep = '＜'
-endif
+" if $FCVIM_OS == 'windows'
+let g:airline_right_sep = '◄'
+let g:airline_right_alt_sep = '＜'
+" endif
+
+let g:airline_filetype_overrides = {
+			\ 'vista' : [ 'Vista', '' ],
+			\ }
+let g:airline_exclude_preview = 0
+
+
+
 
 "--------------------------------------------------------
 "   21.EasyColour 
@@ -453,24 +522,10 @@ endif
 
 
 "--------------------------------------------------------
-"   22.tagbar 
+"   22.deoplete 
+"      coc
 "--------------------------------------------------------
-let g:tagbar_ctags_bin = $FCVIM_TOOLS . '/ctags'
-" 让tagbar在页面左侧显示，默认右边
-" let g:tagbar_left = 1
-" 设置tagbar的宽度为30列，默认40
-let g:tagbar_width = 30
-" 这是tagbar一打开，光标即在tagbar页面内，默认在vim打开的文件内
-let g:tagbar_autofocus = 1     
-" 设置标签不排序，默认排序
-let g:tagbar_sort = 0                                         
-
-
-
-
-"--------------------------------------------------------
-"   23.deoplete 
-"--------------------------------------------------------
+" deoplete
 if 0
 " 自启动
 let g:deoplete#enable_at_startup = 1
@@ -485,6 +540,7 @@ call deoplete#custom#option({
 			\ 'max_list': 200,
 			\ 'smart_case': v:false,
 			\ 'camel_case': v:false,
+			\ 'ignore_case': v:true,
 			\ })
 
 " 用户输入至少4个字符时再开始提示补全
@@ -528,19 +584,27 @@ endif
 endif
 
 "--------------------------------------------------------
-"   24.coc
-"--------------------------------------------------------
-
+" coc
 if $FCVIM_OS == 'windows'
 	let g:coc_node_path = 'C:/Program Files/nodejs/node'
 endif
 
 let g:coc_global_extensions = ['coc-json', 'coc-clangd']
 
+" call coc#config('intelephense', {
+			" \ 'trace': { 'server': 'messages' }
+			" \ 'format': { 'enable': v:true }
+			" \ 'completion': {
+				" \ 'triggerParameterHints': v:true,
+				" \ 'insertUseDeclaration': v:true,
+				" \ 'fullyQualifyGlobalConstantsAndFunctions': v:false,
+				" \}
+			" \})
 call coc#config('suggest', {
 			\ 'minTriggerInputLength': 3,
 			\ 'maxCompleteItemCount': 100,
 			\ 'autoTrigger': 'none',
+			\ 'defaultSortMethod': 'length',
 			\})
 call coc#config('suggest.completionItemKindLabels', {
 			\ "keyword": "\uf1de",
@@ -571,15 +635,15 @@ call coc#config('suggest.completionItemKindLabels', {
 			\ "default": "\uf29c"
 			\})
 " call coc#config('diagnostic', {
-			" \ 'enable': 0,
+			" \ 'enable': v:false,
 			" \})
 call coc#config('coc.preferences', {
 			\ 'rootPatterns': ['.vns', '.svn', '.git', '.hg', '.projections.json'],
 			\})
 call coc#config('coc.source', {
-			\ 'around': { 'enable': 0 },
-			\ 'buffer': { 'enable': 0 },
-			\ 'file': { 'enable': 0 },
+			\ 'around': { 'enable': v:false },
+			\ 'buffer': { 'enable': v:false },
+			\ 'file': { 'enable': v:false },
 			\})
 if $FCVIM_OS == 'windows'
 	" maybe path: 'C:/Program Files/LLVM/bin/clangd',
@@ -589,7 +653,7 @@ else
 endif
 call coc#config('clangd', {
 			\ 'path': $FCVIM_TOOLS_CLANGD,
-			\ 'semanticHighlighting': 1,
+			\ 'semanticHighlighting': v:true,
 			\ 'arguments': ['-j=4', '--pch-storage=memory'],
 			\})
 

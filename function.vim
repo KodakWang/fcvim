@@ -76,6 +76,7 @@ let s:BufIgnoreList = [
             \'-MiniBufExplorer-',
             \'NERD_tree_1',
             \'__Tag_List__',
+            \'__vista__',
             \'[YankRing]',
             \'']
 function! FCVIM_BufferIsValid(buf)
@@ -386,6 +387,54 @@ function FCVIM_CanCompletion(ch)
 	return stridx("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_.>/", a:ch) >= 0
 endfunction
 
+function FCVIM_StopTimer()
+	if exists('g:fcvim_timer')
+		call timer_stop(g:fcvim_timer)
+	endif
+endfunction
+
+function FCVIM_StartTimer(timeout, callback)
+	call FCVIM_StopTimer()
+	:let g:fcvim_timer = timer_start(a:timeout, a:callback)
+endfunction
+
+function FCVIM_CompletionCallback(err, val)
+	echo a:val
+endfunction
+
+function FCVIM_CompletionCallbackTest(...)
+	let l:lst = {"call": '123', "call2": '234'}
+	echo extend(l:lst, get(a:, 1, {}))
+endfunction
+
+function! s:AsyncRequest(name, args) abort
+	call coc#rpc#notify(a:name,
+				\ coc#util#get_complete_option())
+	return ''
+endfunction
+
+function! FCVIM_Completion(timer) abort
+	" echo col('.')
+	if (FCVIM_CanCompletion(getline('.')[col('.') - 2]))
+		" :set paste
+		" call FCVIM_CompletionCallbackTest({'sdf': 'qwe'})
+		
+		call coc#start()
+		" call coc#rpc#request_async('startCompletion',
+					" \ coc#util#get_complete_option(),
+					" \ funcref('FCVIM_CompletionCallback'))
+		" call s:AsyncRequest("startCompletion", '')
+		" call CocActionAsync("startCompletion", coc#util#get_complete_option())
+		" :set nopaste
+		" call coc#_complete()
+	endif
+endfunction
+
+function FCVIM_DelayCompletion()
+	call coc#_cancel()
+	call FCVIM_StartTimer(500, 'FCVIM_Completion')
+endfunction
+
 function FCVIM_KeySmartTab()
     " let l:prev_char = getline('.')[col('.') - 2]
     " echo char2nr(l:prev_char)
@@ -416,23 +465,6 @@ function FCVIM_KeySmartTab()
     endif
 endfunction
 
-if 0
-	let g:fcvim_cur_line = 0
-	let g:fcvim_cur_col = 0
-	function FCVIM_KeySmartBackspace2()
-		let l:cur_col = col('.')
-		let l:cur_line = line('.')
-		let l:enable = (g:fcvim_cur_line == l:cur_line) && (g:fcvim_cur_col == l:cur_col + 1)
-		let g:fcvim_cur_line = l:cur_line
-		let g:fcvim_cur_col = l:cur_col
-		if ((pumvisible() || l:enable) && 
-					\ FCVIM_CanCompletion(getline('.')[col('.') - 3]))
-			return "\<backspace>\<tab>"
-		endif
-		return "\<backspace>"
-	endfunction
-endif
-
 function FCVIM_KeySmartBackspace()
 	" let l:cur_line = line('.')
 	let l:cur_col = col('.')
@@ -445,26 +477,8 @@ function FCVIM_KeySmartBackspace()
 	return "\<backspace>"
 endfunction
 
-function FCVIM_StopTimer()
-	if exists('g:fcvim_timer')
-		call timer_stop(g:fcvim_timer)
-	endif
-endfunction
-
-function FCVIM_StartTimer(timeout, callback)
-	call FCVIM_StopTimer()
-	:let g:fcvim_timer = timer_start(a:timeout, a:callback)
-endfunction
-
-function FCVIM_Completion(timer)
-	" echo col('.')
-	if (FCVIM_CanCompletion(getline('.')[col('.') - 2])) 
-		call coc#start()
-	endif
-endfunction
-
-function FCVIM_DelayCompletion()
-	call coc#_cancel()
-	call FCVIM_StartTimer(200, 'FCVIM_Completion')
+function FCVIM_KeySmartBackspace2()
+	call FCVIM_DelayCompletion()
+	return "\<backspace>"
 endfunction
 

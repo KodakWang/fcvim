@@ -30,7 +30,8 @@ let g:mapleader = ","
 map <leader>[ :NERDTreeToggle<CR>
 
 " map <leader>] :TlistToggle<CR>
-map <leader>] :TagbarToggle<CR>
+" map <leader>] :TagbarToggle<CR>
+map <leader>] :Vista!!<CR>
 
 " map <leader>\ :YRShow<CR>
 
@@ -74,10 +75,14 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 " fix backspace issue: remove prev char loss preview on input mode.
-imap <expr><backspace> FCVIM_KeySmartBackspace()
+imap <expr><backspace> FCVIM_KeySmartBackspace2()
 " Use <c-s-2> to trigger completion.
 inoremap <silent><expr> <c-@> coc#refresh()
 nmap <silent><leader>is :CocCommand clangd.switchSourceHeader<cr>
+
+" 延时补全避免输入卡顿
+autocmd InsertCharPre * call FCVIM_DelayCompletion()
+autocmd InsertLeave * call FCVIM_StopTimer()
 
 "----------------------------------------------------------------------
 " misc
@@ -179,7 +184,4 @@ inoremap <silent><expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 " 在需要搜索时打开自动跳转
 map / :set incsearch \| unmap /<cr>/
 autocmd CmdlineLeave * set noincsearch | map / :set incsearch \| unmap /<cr>/
-
-autocmd InsertCharPre * call FCVIM_DelayCompletion()
-autocmd InsertLeave * call FCVIM_StopTimer()
 
