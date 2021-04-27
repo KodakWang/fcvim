@@ -84,6 +84,9 @@ nmap <silent><leader>is :CocCommand clangd.switchSourceHeader<cr>
 autocmd InsertCharPre * call FCVIM_DelayCompletion()
 autocmd InsertLeave * call FCVIM_StopTimer()
 
+" 插件启动事件回调（定时器模拟）
+call FCVIM_StartTimer(500, 'FCVIM_PluginStartupProc')
+
 "----------------------------------------------------------------------
 " misc
 

@@ -428,6 +428,7 @@ function FCVIM_CompletionCallback(err, val)
 	let cword = FCVIM_GetCurWord()
 	let cwordlen = strlen(cword)
 	" echo cword
+	" 候选词即使不请求也会被更新
 	" echo g:coc#_context['candidates']
 	let minlen = cwordlen * 100
 	for item in g:coc#_context['candidates']
@@ -449,8 +450,7 @@ endfunction
 	" echo extend(l:lst, get(a:, 1, {}))
 " endfunction
 
-let g:fcvim_completion_enable = v:true
-function! FCVIM_Completion(timer) abort
+function FCVIM_CompletionProc(timer)
 	" echo col('.')
 	if (FCVIM_CanCompletion(getline('.')[col('.') - 2]))
 		" call FCVIM_CompletionCallbackTest({'sdf': 'qwe'})
@@ -468,13 +468,13 @@ endfunction
 
 function FCVIM_DelayCompletion()
 	" call coc#_cancel()
-	if pumvisible()
-		let g:coc#_context = {'start': 0, 'preselect': -1,'candidates': []}
-		call feedkeys("\<Plug>CocRefreshTmp", 'i')
-		call coc#rpc#notify('stopCompletion', [])
-	endif
+	" if pumvisible()
+		" let g:coc#_context = {'start': 0, 'preselect': -1,'candidates': []}
+		" call feedkeys("\<Plug>CocRefreshTmp", 'i')
+		" call coc#rpc#notify('stopCompletion', [])
+	" endif
 
-	call FCVIM_StartTimer(500, 'FCVIM_Completion')
+	call FCVIM_StartTimer(20, 'FCVIM_CompletionProc')
 endfunction
 
 function FCVIM_KeySmartTab()
@@ -522,5 +522,15 @@ endfunction
 function FCVIM_KeySmartBackspace2()
 	call FCVIM_DelayCompletion()
 	return "\<backspace>"
+endfunction
+
+" 初始化
+function FCVIM_PluginStartupProc(timer)
+	let g:fcvim_completion_enable = v:true
+
+	" 禁用插件的补全列表刷新
+	imap <expr><Plug>CocRefresh ''
+	" 备用临时命令
+	inoremap <silent><Plug>CocRefreshTmp <C-r>=coc#_complete()<CR>
 endfunction
 
