@@ -138,9 +138,9 @@ vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
 " Remove the Windows ^M - when the encodings gets messed up
 noremap <leader>.m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 " 移除每行多余的空格
-noremap <leader>.<space> :%s= *$==<cr>:noh<cr>
+noremap <leader>.<space> :%s= *$==<cr>:noh<cr><c-o>
 " 移除每行多余的制表符
-noremap <leader>.<tab> :%s=\t*$==<cr>:noh<cr>
+noremap <leader>.<tab> :%s=\t*$==<cr>:noh<cr><c-o>
 " 移除所有的空行
 noremap <leader>.<cr> :g/^\s*$/d<cr>
 

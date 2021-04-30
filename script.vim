@@ -480,12 +480,10 @@ let g:airline_powerline_fonts = 1
 " let g:airline_symbols.maxlinenr = ''
 " let g:airline_symbols.dirty='⚡'
 
-" windows下更换反向箭头（默认反向箭头间隙太大）
-" if $FCVIM_OS == 'windows'
+" 更换反向箭头（默认反向箭头间隙太大）
 let g:airline_right_sep = '◄'
 let g:airline_right_alt_sep = '＜'
-" endif
-
+" 排除一些窗口的状态栏功能
 let g:airline_filetype_overrides = {
 			\ 'vista' : [ 'Vista', '' ],
 			\ }
@@ -588,7 +586,7 @@ endif
 if $FCVIM_OS == 'windows'
 	let g:coc_node_path = 'C:/Program Files/nodejs/node'
 endif
-
+let g:coc_disable_startup_warning = v:true
 let g:coc_global_extensions = ['coc-json', 'coc-clangd']
 
 " call coc#config('intelephense', {
@@ -648,8 +646,10 @@ call coc#config('coc.source', {
 if $FCVIM_OS == 'windows'
 	" maybe path: 'C:/Program Files/LLVM/bin/clangd',
 	let $FCVIM_TOOLS_CLANGD = $FCVIM_TOOLS . '/clangd'
-else
+elseif $FCVIM_OS == 'mac'
 	let $FCVIM_TOOLS_CLANGD = '/Library/Developer/CommandLineTools/usr/bin/clangd'
+else
+	let $FCVIM_TOOLS_CLANGD = 'clangd'
 endif
 call coc#config('clangd', {
 			\ 'path': $FCVIM_TOOLS_CLANGD,

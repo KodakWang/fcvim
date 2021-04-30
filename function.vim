@@ -470,7 +470,7 @@ function FCVIM_DelayCompletion()
 	" call coc#_cancel()
 	" if pumvisible()
 		" let g:coc#_context = {'start': 0, 'preselect': -1,'candidates': []}
-		" call feedkeys("\<Plug>CocRefreshTmp", 'i')
+		" call feedkeys("\<Plug>FCVIMCocRefresh", 'i')
 		" call coc#rpc#notify('stopCompletion', [])
 	" endif
 
@@ -531,6 +531,6 @@ function FCVIM_PluginStartupProc(timer)
 	" 禁用插件的补全列表刷新
 	imap <expr><Plug>CocRefresh ''
 	" 备用临时命令
-	inoremap <silent><Plug>CocRefreshTmp <C-r>=coc#_complete()<CR>
+	inoremap <silent><Plug>FCVIMCocRefresh <C-r>=coc#_complete()<CR>
 endfunction
 
