@@ -635,6 +635,13 @@ call coc#config('suggest.completionItemKindLabels', {
 " call coc#config('diagnostic', {
 			" \ 'enable': v:false,
 			" \})
+" signature
+" .enable              启用签名帮助（函数定义等）
+" .preferShownAbove    提示浮窗是否显示在光标上方
+call coc#config('signature', {
+			\ 'enable': v:true,
+			\ 'preferShownAbove': v:false,
+			\})
 call coc#config('coc.preferences', {
 			\ 'rootPatterns': ['.vns', '.svn', '.git', '.hg', '.projections.json'],
 			\})

@@ -23,7 +23,7 @@ let g:fcvim_loaded_entry = 1
 " Identify the operating system & initialize values
 
 if !exists('$FCVIM_OS')
-	if strlen($Apple_PubSub_Socket_Render)
+	if has('mac') || strlen($Apple_PubSub_Socket_Render)
 		" 苹果系统识别
 		" 之后也可使用stridx($FCVIM_TOOLS, '/local/')>0判断
 		" 注：使用has('mac')或has('macunix')无效果
