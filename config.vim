@@ -59,7 +59,7 @@ set hidden                      " 允许未保存缓冲区
 if $FCVIM_OS == 'windows'
 set mouse=a                     " 鼠标可用
 else
-set mouse=r                     " 鼠标可用
+set mouse=r                     " 鼠标的复制可用（行号需要关闭）
 endif
 
 " No annoying sound on errors

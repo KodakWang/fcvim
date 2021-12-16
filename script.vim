@@ -524,7 +524,7 @@ endif
 "      coc
 "--------------------------------------------------------
 " deoplete
-if 0
+if has_key(g:plugs, "deoplete.nvim")
 " 自启动
 let g:deoplete#enable_at_startup = 1
 
@@ -583,7 +583,7 @@ endif
 
 "--------------------------------------------------------
 " coc
-if exists('g:did_coc_loaded')
+if has_key(g:plugs, "coc.nvim")
 if $FCVIM_OS == 'windows'
 	let g:coc_node_path = 'C:/Program Files/nodejs/node'
 endif
