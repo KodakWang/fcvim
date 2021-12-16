@@ -56,7 +56,11 @@ set nocompatible                " 关闭VI兼容模式
 set history=700                 " 历史记录
 set magic                       " 正则规划反斜杠
 set hidden                      " 允许未保存缓冲区
+if $FCVIM_OS == 'windows'
 set mouse=a                     " 鼠标可用
+else
+set mouse=r                     " 鼠标可用
+endif
 
 " No annoying sound on errors
 set noerrorbells                " 关闭错误信息响铃

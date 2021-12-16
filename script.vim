@@ -583,6 +583,7 @@ endif
 
 "--------------------------------------------------------
 " coc
+if exists('g:did_coc_loaded')
 if $FCVIM_OS == 'windows'
 	let g:coc_node_path = 'C:/Program Files/nodejs/node'
 endif
@@ -663,7 +664,7 @@ call coc#config('clangd', {
 			\ 'semanticHighlighting': v:true,
 			\ 'arguments': ['-j=4', '--pch-storage=memory'],
 			\})
-
+endif "----------------------------------------
 
 
 

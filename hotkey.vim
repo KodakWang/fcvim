@@ -74,11 +74,11 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
+if 0 " 优化coc插件的补全效果
 " fix backspace issue: remove prev char loss preview on input mode.
 imap <expr><backspace> FCVIM_KeySmartBackspace2()
 " Use <c-s-2> to trigger completion.
 inoremap <silent><expr> <c-@> coc#refresh()
-nmap <silent><leader>is :CocCommand clangd.switchSourceHeader<cr>
 
 " 延时补全避免输入卡顿
 autocmd InsertCharPre * call FCVIM_DelayCompletion()
@@ -86,6 +86,8 @@ autocmd InsertLeave * call FCVIM_StopTimer()
 
 " 插件启动事件回调（定时器模拟）
 call FCVIM_StartTimer(500, 'FCVIM_PluginStartupProc')
+endif
+nmap <silent><leader>is :CocCommand clangd.switchSourceHeader<cr>
 
 "----------------------------------------------------------------------
 " misc
@@ -103,8 +105,8 @@ call FCVIM_StartTimer(500, 'FCVIM_PluginStartupProc')
 
 " 文件基本操作
 nmap <leader>w :w!<CR>
-nmap <leader>q :call FCVIM_BufferClose(0)<CR>
-nmap <leader>x :w!<CR>:call FCVIM_BufferClose(0)<CR>
+"nmap <leader>q :call FCVIM_BufferClose(0)<CR>
+"nmap <leader>x :w!<CR>:call FCVIM_BufferClose(0)<CR>
 
 " Smart way to move between windows
 map <C-j> <C-W>j
