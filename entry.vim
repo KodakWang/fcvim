@@ -57,6 +57,17 @@ if !exists('$FCVIM_TOOLS')
 	endif
 endif
 
+if !exists('$FCVIM_TOOLS_CLANGD')
+	if $FCVIM_OS == 'windows'
+		" maybe path: 'C:/Program Files/LLVM/bin/clangd',
+		let $FCVIM_TOOLS_CLANGD = $FCVIM_TOOLS . '/clangd'
+	elseif $FCVIM_OS == 'mac'
+		let $FCVIM_TOOLS_CLANGD = '/Library/Developer/CommandLineTools/usr/bin/clangd'
+	else
+		let $FCVIM_TOOLS_CLANGD = 'clangd'
+	endif
+endif
+
 if !exists('$FCVIM_TEMP')
 	if $FCVIM_OS == 'windows'
 		let $FCVIM_TEMP = $TEMP

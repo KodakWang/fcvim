@@ -592,7 +592,33 @@ if $FCVIM_OS == 'windows'
 	let g:coc_node_path = 'C:/Program Files/nodejs/node'
 endif
 let g:coc_disable_startup_warning = v:true
-let g:coc_global_extensions = ['coc-json', 'coc-clangd']
+if v:version < 802
+	" 第一次安装coc可能会直接安装最新版本的拓展插件（v0.0.73后的版本都会）
+	" 可以手动安装指定版本的拓展插件，如：CocInstall coc-clangd@0.18.2
+	let g:coc_global_extensions = ['coc-json', 'coc-clangd@0.18.2']
+	call coc#config('coc.preferences', {
+				\ 'rootPatterns': ['.vns', '.svn', '.git', '.hg', '.projections.json'],
+				\ 'semanticTokensHighlights': v:false,
+				\})
+	call coc#config('clangd', {
+				\ 'path': $FCVIM_TOOLS_CLANGD,
+				\ 'arguments': ['-j=4', '--pch-storage=memory'],
+				\ 'semanticHighlighting': v:true,
+				\})
+else
+	let g:coc_global_extensions = ['coc-json', 'coc-clangd']
+	call coc#config('semanticTokens', {
+				\ 'enable': v:true,
+				\ 'filetypes': ['c', 'cpp', 'hxx', 'hpp'],
+				\})
+	call coc#config('coc.preferences', {
+				\ 'rootPatterns': ['.vns', '.svn', '.git', '.hg', '.projections.json'],
+				\})
+	call coc#config('clangd', {
+				\ 'path': $FCVIM_TOOLS_CLANGD,
+				\ 'arguments': ['-j=4', '--pch-storage=memory'],
+				\})
+endif
 
 " call coc#config('intelephense', {
 			" \ 'trace': { 'server': 'messages' }
@@ -647,38 +673,10 @@ call coc#config('signature', {
 			\ 'enable': v:true,
 			\ 'preferShownAbove': v:false,
 			\})
-call coc#config('coc.preferences', {
-			\ 'rootPatterns': ['.vns', '.svn', '.git', '.hg', '.projections.json'],
-			\})
 call coc#config('coc.source', {
 			\ 'around': { 'enable': v:false },
 			\ 'buffer': { 'enable': v:false },
 			\ 'file': { 'enable': v:false },
 			\})
-if $FCVIM_OS == 'windows'
-	" maybe path: 'C:/Program Files/LLVM/bin/clangd',
-	let $FCVIM_TOOLS_CLANGD = $FCVIM_TOOLS . '/clangd'
-elseif $FCVIM_OS == 'mac'
-	let $FCVIM_TOOLS_CLANGD = '/Library/Developer/CommandLineTools/usr/bin/clangd'
-else
-	let $FCVIM_TOOLS_CLANGD = 'clangd'
-endif
-call coc#config('clangd', {
-			\ 'path': $FCVIM_TOOLS_CLANGD,
-			\ 'arguments': ['-j=4', '--pch-storage=memory'],
-			\})
-if v:version < 802
-	call coc#config('coc.preferences', {
-				\ 'semanticTokensHighlights': v:false,
-				\})
-	call coc#config('clangd', {
-				\ 'semanticHighlighting': v:true,
-				\})
-else
-	call coc#config('semanticTokens', {
-				\ 'enable': v:true,
-				\ 'filetypes': ['c', 'cpp', 'hxx', 'hpp'],
-				\})
-endif
 endif "----------------------------------------
 
