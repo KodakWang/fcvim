@@ -40,8 +40,12 @@ Plug 'Shougo/neoinclude.vim'
 endif
 "----------------------------------------------------------------------
 " coc
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'jackguo380/vim-lsp-cxx-highlight'
+if v:version < 802 " 高版本的coc不兼容vim8.2之前的版本
+	Plug 'neoclide/coc.nvim', {'tag': 'v0.0.80'}
+	Plug 'jackguo380/vim-lsp-cxx-highlight'
+else
+	Plug 'neoclide/coc.nvim', {'branch': 'release'}
+endif
 
 "----------------------------------------------------------------------
 " Plugin outside ~/.vim/plugged with post-update hook
@@ -661,10 +665,20 @@ else
 endif
 call coc#config('clangd', {
 			\ 'path': $FCVIM_TOOLS_CLANGD,
-			\ 'semanticHighlighting': v:true,
 			\ 'arguments': ['-j=4', '--pch-storage=memory'],
 			\})
+if v:version < 802
+	call coc#config('coc.preferences', {
+				\ 'semanticTokensHighlights': v:false,
+				\})
+	call coc#config('clangd', {
+				\ 'semanticHighlighting': v:true,
+				\})
+else
+	call coc#config('semanticTokens', {
+				\ 'enable': v:true,
+				\ 'filetypes': ['c', 'cpp', 'hxx', 'hpp'],
+				\})
+endif
 endif "----------------------------------------
-
-
 

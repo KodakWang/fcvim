@@ -20,7 +20,7 @@ if !isdirectory($FCVIM)
 	let $FCVIM = expand('<sfile>:p:h') . '/projects/fcvim'
 endif
 if !isdirectory($FCVIM) "finddir($FCVIM) == ''
-	let $FCVIM = expand('<sfile>:p:h')
+	let $FCVIM = expand('<sfile>:p:h') . '/fcvim'
 endif
 source $FCVIM/entry.vim
 
