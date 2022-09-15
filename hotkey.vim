@@ -33,7 +33,7 @@ map <leader>[ :NERDTreeToggle<CR>
 " map <leader>] :TagbarToggle<CR>
 map <leader>] :Vista!!<CR>
 
-" map <leader>\ :YRShow<CR>
+map <leader>' :YRShow<CR>
 
 " map <leader>' :MBEToggle<CR>
 
@@ -59,9 +59,9 @@ map <unique> m, <Plug>Vm_goto_next_sign
 map <unique> m. <Plug>Vm_goto_prev_sign
 
 " fzf
-map <leader>f :Files<cr>
-map <leader>b :Buffers<cr>
-map <leader>bl :Lines<cr>
+map <leader>ff :Files<cr>
+map <leader>fb :Buffers<cr>
+map <leader>fl :Lines<cr>
 
 " coc
 " Use `[g` and `]g` to navigate diagnostics
@@ -183,7 +183,7 @@ map <leader><tab> :call FCVIM_ToggleList()<cr>
 
 " 智能tab映射，保证代码前缩进为制表符，代码后则映射为空格
 " inoremap <silent><tab> <c-r>=FCVIM_KeySmartTab()<cr>
-inoremap <silent><expr><tab> FCVIM_KeySmartTab()
+inoremap <silent><expr><tab> pumvisible() ? "\<C-n>" : FCVIM_KeySmartTab()
 inoremap <silent><expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 " 在需要搜索时打开自动跳转

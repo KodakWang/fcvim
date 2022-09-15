@@ -488,15 +488,19 @@ function FCVIM_KeySmartTab()
     " endif
     " return "\<tab>"
 
+    " 此判断在vim9中失效，在外部判断可以
+    " if (pumvisible())
+	    " return "\<C-n>"
+    " endif
+
     let l:cur_col = col('.')
     let l:cur_line_str = getline('.')
+
     " 补全控制
-    if (pumvisible())
-	    return "\<C-n>"
-    " elseif (FCVIM_CanCompletion(l:cur_line_str[l:cur_col - 2]))
+    " if (FCVIM_CanCompletion(l:cur_line_str[l:cur_col - 2]))
 	    " " return deoplete#manual_complete(['file/include'])
 	    " return coc#refresh()
-    endif
+    " endif
 
     " 制表空格
     if (1 == l:cur_col || "\<tab>" == l:cur_line_str[l:cur_col - 2])
