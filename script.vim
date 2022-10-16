@@ -13,7 +13,7 @@
 " Specify a directory for plugins
 " - For Neovim: stdpath('data') . '/plugged'
 " - Avoid using standard Vim directory names like 'plugin'
-silent! call plug#begin($FCVIM_ROOT . '/plugged')
+call plug#begin($FCVIM_ROOT . '/plugged')
 
 "----------------------------------------------------------------------
 " 代码相关
@@ -104,7 +104,7 @@ Plug 'vim-airline/vim-airline'
 "----------------------------------------------------------------------
 " 其他
 
-" 窗口透明度和大小控制（需要windows系统）
+" 窗口透明度和大小控制（需要windows系统，仓库的dll版本不对）
 " Plug 'mattn/vimtweak'
 
 " 行标记
@@ -501,7 +501,7 @@ endif
 "--------------------------------------------------------
 "   19.vimtweak
 "--------------------------------------------------------
-if has_key(g:plugs, "vimtweak")
+if has_key(g:plugs, "vimtweak") || $FCVIM_OS == 'windows'
 	" 进入GUI自动窗口透明，最大化，最前端。
 	if !has('unix')
 		if !exists('g:vimtweak_dll_path')
@@ -666,7 +666,7 @@ if has_key(g:plugs, "coc.nvim")
 					\})
 		call coc#config('clangd', {
 					\ 'path': $FCVIM_TOOLS_CLANGD,
-					\ 'arguments': ['-j=4', '--pch-storage=memory'],
+					\ 'arguments': ['-j=4', '--pch-storage=memory', '--compile-commands-dir=' . $FCVIM_TOOLS_CLANGD_CFLAGSDIR],
 					\ 'semanticHighlighting': v:true,
 					\})
 	else
@@ -679,7 +679,7 @@ if has_key(g:plugs, "coc.nvim")
 					\})
 		call coc#config('clangd', {
 					\ 'path': $FCVIM_TOOLS_CLANGD,
-					\ 'arguments': ['-j=4', '--pch-storage=memory'],
+					\ 'arguments': ['-j=4', '--pch-storage=memory', '--compile-commands-dir=' . $FCVIM_TOOLS_CLANGD_CFLAGSDIR],
 					\})
 	endif
 

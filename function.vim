@@ -235,7 +235,7 @@ endfunction
 function! FCVIM_CommandDatabaseSed(dir, fn)
         let l:tool = 'sed'
         let l:files = '"' . a:dir . '/' . a:fn . '"'
-        if strlen($Apple_PubSub_Socket_Render)
+        if $FCVIM_OS == "macos"
             return l:tool . ' -i "" "s/^/\"/;s/$/\"/" ' . l:files
         else
             return l:tool . ' -i "s/^/\"/;s/$/\"/" ' . l:files

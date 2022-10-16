@@ -59,8 +59,8 @@ endif
 
 if !exists('$FCVIM_TOOLS_CLANGD')
 	if $FCVIM_OS == 'windows'
-		" maybe path: 'C:/Program Files/LLVM/bin/clangd',
-		let $FCVIM_TOOLS_CLANGD = $FCVIM_TOOLS . '/clangd'
+		" let $FCVIM_TOOLS_CLANGD = $FCVIM_TOOLS . '/clangd'
+		let $FCVIM_TOOLS_CLANGD = 'C:/Program Files/LLVM/bin/clangd'
 	elseif $FCVIM_OS == 'mac'
 		let $FCVIM_TOOLS_CLANGD = '/Library/Developer/CommandLineTools/usr/bin/clangd'
 	else
@@ -95,8 +95,32 @@ set cscopeprg=$FCVIM_TOOLS/cscope
 set runtimepath=$FCVIM_ROOT,$VIMRUNTIME
 
 source $FCVIM_ROOT/config.vim
-source $FCVIM_ROOT/script.vim
 source $FCVIM_ROOT/function.vim
+
+let $FCVIM_TOOLS_CLANGD_CFLAGSDIR = FCVIM_FindFileDirUpward("compile_flags.txt.in")
+if $FCVIM_TOOLS_CLANGD_CFLAGSDIR != ""
+	if !exists('$QTROOT')
+		if $FCVIM_OS == "windows"
+			let $QTROOT = "C:/Qt"
+		else
+			if !exists('$FCHOME')
+				let $QTROOT = $HOME . "/Qt"
+			else
+				let $QTROOT = $FCHOME . "/Qt"
+			endif
+		endif
+	endif
+	if !exists('$QTVERSION')
+		let $QTVERSION = "5.15.2"
+	endif
+	let $QTROOT = substitute($QTROOT, "\\", "/", "g")
+	let $QTROOT = substitute($QTROOT, "/", "\\\\/", "g")
+	echo system(FCVIM_Command(
+				\"cp -f " . $FCVIM_TOOLS_CLANGD_CFLAGSDIR . "/compile_flags.txt.in " . $FCVIM_TOOLS_CLANGD_CFLAGSDIR . "/compile_flags.txt",
+				\"sed -i " . (($FCVIM_OS == "macos")?'"" ':"") . "'s/$QTROOT/" . $QTROOT . "/g; s/$QTVERSION/" . $QTVERSION . "/g' " . $FCVIM_TOOLS_CLANGD_CFLAGSDIR . "/compile_flags.txt"))
+endif
+
+source $FCVIM_ROOT/script.vim
 source $FCVIM_ROOT/hotkey.vim
 
 "----------------------------------------------------------------------
