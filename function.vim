@@ -538,3 +538,28 @@ function FCVIM_PluginStartupProc(timer)
 	inoremap <silent><Plug>FCVIMCocRefresh <C-r>=coc#_complete()<CR>
 endfunction
 
+" 根据.in生成目标文件
+function FCVIM_GenerateCompileFlags()
+	if $FCVIM_TOOLS_CLANGD_CFLAGSDIR != ""
+		if !exists('$QTROOT')
+			if $FCVIM_OS == "windows"
+				let $QTROOT = "C:/Qt"
+			else
+				if !exists('$FCHOME')
+					let $QTROOT = $HOME . "/Qt"
+				else
+					let $QTROOT = $FCHOME . "/Qt"
+				endif
+			endif
+		endif
+		if !exists('$QTVERSION')
+			let $QTVERSION = "5.15.2"
+		endif
+		let $QTROOT_CONV = substitute($QTROOT, "\\", "/", "g")
+		let $QTROOT_CONV = substitute($QTROOT_CONV, "/", "\\\\/", "g")
+		echo system(FCVIM_Command(
+					\"cp -f " . $FCVIM_TOOLS_CLANGD_CFLAGSDIR . "/compile_flags.txt.in " . $FCVIM_TOOLS_CLANGD_CFLAGSDIR . "/compile_flags.txt",
+					\"sed -i " . (($FCVIM_OS == "mac")?'"" ':"") . "'s/$QTROOT/" . $QTROOT_CONV . "/g; s/$QTVERSION/" . $QTVERSION . "/g' " . $FCVIM_TOOLS_CLANGD_CFLAGSDIR . "/compile_flags.txt"))
+	endif
+endfunction
+
