@@ -659,18 +659,20 @@ if has_key(g:plugs, "coc.nvim")
 	if v:version < 802
 		" 第一次安装coc可能会直接安装最新版本的拓展插件（v0.0.73后的版本都会）
 		" 可以手动安装指定版本的拓展插件，如：CocInstall coc-clangd@0.18.2
-		let g:coc_global_extensions = ['coc-json', 'coc-clangd@0.18.2']
+		" 以下方式会在vim启动加载coc插件时自动安装拓展插件
+		let g:coc_global_extensions = ['coc-json', 'coc-clangd@0.18.2', 'coc-go']
 		call coc#config('coc.preferences', {
 					\ 'rootPatterns': ['.vns', '.svn', '.git', '.hg', '.projections.json'],
 					\ 'semanticTokensHighlights': v:false,
 					\})
+		" 配置拓展插件，以下方式类似设置languageserver且各插件可单独配
 		call coc#config('clangd', {
 					\ 'path': $FCVIM_TOOLS_CLANGD,
 					\ 'arguments': ['-j=4', '--pch-storage=memory', '--compile-commands-dir=' . $FCVIM_TOOLS_CLANGD_CFLAGSDIR],
 					\ 'semanticHighlighting': v:true,
 					\})
 	else
-		let g:coc_global_extensions = ['coc-json', 'coc-clangd']
+		let g:coc_global_extensions = ['coc-json', 'coc-clangd', 'coc-go']
 		call coc#config('semanticTokens', {
 					\ 'enable': v:true,
 					\})
@@ -682,6 +684,9 @@ if has_key(g:plugs, "coc.nvim")
 					\ 'arguments': ['-j=4', '--pch-storage=memory', '--compile-commands-dir=' . $FCVIM_TOOLS_CLANGD_CFLAGSDIR],
 					\})
 	endif
+	call coc#config('go', {
+				\ 'goplsPath': $GOPATH . '/bin/gopls',
+				\})
 
 	" call coc#config('intelephense', {
 	" \ 'trace': { 'server': 'messages' }
