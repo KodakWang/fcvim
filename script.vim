@@ -79,7 +79,7 @@ Plug 'liuchengxu/vista.vim'
 
 " 文件浏览器
 " Make sure you use single quotes
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
 
 " 目录盲搜
 " fzf工具
