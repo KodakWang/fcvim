@@ -42,7 +42,7 @@ endif
 if !exists('$FCVIM_ROOT')
 	let $FCVIM_ROOT = expand('<sfile>:p:h')
 	" 路径转换
-	if has("win32unix")
+	if has("win32unix") && strpart($FCVIM_ROOT, 2, 1) == '/'
 		let $FCVIM_ROOT = strpart($FCVIM_ROOT, 1, 1) . ':' . strpart($FCVIM_ROOT, 2)
 	endif
 endif

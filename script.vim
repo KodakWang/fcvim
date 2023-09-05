@@ -160,8 +160,18 @@ if has_key(g:plugs, "EasyColour")
 		highlight CursorLine term=underline cterm=underline ctermbg=DarkGray guibg=DarkGray
 		highlight CursorColumn term=reverse ctermbg=DarkGray guibg=DarkGray
 	endif
-	" 设置保护色
-	" highlight Normal guifg=black guibg=#cce8cf
+	if has("gui_running")
+		" 设置保护色
+		" highlight Normal guifg=black guibg=#cce8cf
+
+		" 设置背景透明
+		highlight Normal guibg=None
+		highlight NonText guibg=None
+	else
+		" 设置背景透明
+		highlight Normal ctermbg=None
+		highlight NonText ctermbg=None
+	endif
 endif
 
 
@@ -653,7 +663,11 @@ endif
 " coc
 if has_key(g:plugs, "coc.nvim")
 	if $FCVIM_OS == 'windows'
-		let g:coc_node_path = 'C:/Program Files/nodejs/node'
+		if !filereadable('C:/Program Files/nodejs/node')
+			let g:coc_node_path = 'node'
+		else
+			let g:coc_node_path = 'C:/Program Files/nodejs/node'
+		endif
 	endif
 	let g:coc_disable_startup_warning = v:true
 	if v:version < 802
