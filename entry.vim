@@ -42,8 +42,14 @@ endif
 if !exists('$FCVIM_ROOT')
 	let $FCVIM_ROOT = expand('<sfile>:p:h')
 	" 路径转换
-	if has("win32unix") && strpart($FCVIM_ROOT, 2, 1) == '/'
-		let $FCVIM_ROOT = strpart($FCVIM_ROOT, 1, 1) . ':' . strpart($FCVIM_ROOT, 2)
+	if $FCVIM_OS == 'windows'
+		if has("win32unix") && strpart($FCVIM_ROOT, 2, 1) == '/'
+			let $FCVIM_ROOT = strpart($FCVIM_ROOT, 1, 1) . ':' . strpart($FCVIM_ROOT, 2)
+		else
+			if isdirectory("c:/msys64")
+				let $PATH = "c:/msys64/ucrt64/bin;c:/msys64/usr/local/bin;c:/msys64/usr/bin;c:/msys64/bin;" . $PATH
+			endif
+		endif
 	endif
 endif
 
@@ -58,13 +64,25 @@ if !exists('$FCVIM_TOOLS')
 endif
 
 if !exists('$FCVIM_TOOLS_CLANGD')
-	if $FCVIM_OS == 'windows'
-		" let $FCVIM_TOOLS_CLANGD = $FCVIM_TOOLS . '/clangd'
-		let $FCVIM_TOOLS_CLANGD = 'C:/Program Files/LLVM/bin/clangd'
-	elseif $FCVIM_OS == 'mac'
-		let $FCVIM_TOOLS_CLANGD = '/Library/Developer/CommandLineTools/usr/bin/clangd'
-	else
+	" coc plugin need clangd path add to Env PATH.
+	if executable("clangd")
 		let $FCVIM_TOOLS_CLANGD = 'clangd'
+	else
+		if $FCVIM_OS == 'windows'
+			if filereadable('C:/Program Files/LLVM/bin/clangd.exe')
+				let $FCVIM_TOOLS_CLANGD = 'C:/Program Files/LLVM/bin/clangd'
+			elseif filereadable('C:/Qt/Tools/QtCreator/bin/clang/bin/clangd.exe')
+				" let $FCVIM_TOOLS_CLANGD = 'C:/Qt/Tools/QtCreator/bin/clang/bin/clangd'
+				let $FCVIM_TOOLS_CLANGD = 'clangd'
+				let $PATH = "C:/Qt/Tools/QtCreator/bin/clang/bin;" . $PATH
+			else
+				let $FCVIM_TOOLS_CLANGD = $FCVIM_TOOLS . '/clangd'
+			endif
+		elseif $FCVIM_OS == 'mac'
+			let $FCVIM_TOOLS_CLANGD = '/Library/Developer/CommandLineTools/usr/bin/clangd'
+		else
+			let $FCVIM_TOOLS_CLANGD = 'clangd'
+		endif
 	endif
 endif
 

@@ -165,8 +165,8 @@ if has_key(g:plugs, "EasyColour")
 		" highlight Normal guifg=black guibg=#cce8cf
 
 		" 设置背景透明
-		highlight Normal guibg=None
-		highlight NonText guibg=None
+		" highlight Normal guibg=None
+		" highlight NonText guibg=None
 	else
 		" 设置背景透明
 		highlight Normal ctermbg=None
@@ -674,7 +674,7 @@ if has_key(g:plugs, "coc.nvim")
 		" 第一次安装coc可能会直接安装最新版本的拓展插件（v0.0.73后的版本都会）
 		" 可以手动安装指定版本的拓展插件，如：CocInstall coc-clangd@0.18.2
 		" 以下方式会在vim启动加载coc插件时自动安装拓展插件
-		let g:coc_global_extensions = ['coc-json', 'coc-clangd@0.18.2', 'coc-go']
+		let g:coc_global_extensions = ['coc-json', 'coc-clangd@0.18.2']
 		call coc#config('coc.preferences', {
 					\ 'rootPatterns': ['.vns', '.svn', '.git', '.hg', '.projections.json'],
 					\ 'semanticTokensHighlights': v:false,
@@ -697,10 +697,10 @@ if has_key(g:plugs, "coc.nvim")
 					\ 'path': $FCVIM_TOOLS_CLANGD,
 					\ 'arguments': ['-j=4', '--pch-storage=memory', '--compile-commands-dir=' . $FCVIM_TOOLS_CLANGD_CFLAGSDIR],
 					\})
+		call coc#config('go', {
+					\ 'goplsPath': $GOPATH . '/bin/gopls',
+					\})
 	endif
-	call coc#config('go', {
-				\ 'goplsPath': $GOPATH . '/bin/gopls',
-				\})
 
 	" call coc#config('intelephense', {
 	" \ 'trace': { 'server': 'messages' }
