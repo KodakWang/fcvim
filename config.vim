@@ -181,7 +181,11 @@ if has("multi_byte")
         source $VIMRUNTIME/delmenu.vim
         source $VIMRUNTIME/menu.vim
         set langmenu=zh_CN.UTF-8
-        language messages zh_CN.utf-8
+	if has("gui_running")
+		language messages zh_CN.utf-8
+	else
+		language messages C.utf8
+	endif
         " set guifont=Inconsolata_for_Powerline:h12:cANSI   " 设置字体 以及中文支持
 	set guifont=Consolas_NF:h12:cANSI
     catch
