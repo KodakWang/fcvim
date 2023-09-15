@@ -190,3 +190,11 @@ inoremap <silent><expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 map / :set incsearch \| unmap /<cr>/
 autocmd CmdlineLeave * set noincsearch | map / :set incsearch \| unmap /<cr>/
 
+" 在windows终端中使用gvim的vim编辑内容可能会出现色块，利用全重绘来缓解这个问题
+if has("win32") && !has("gui_running")
+	nmap <expr><esc> execute("redraw!")
+	imap <esc> <esc>:redraw!<cr>
+
+	" autocmd InsertLeave * redraw!
+endif
+
