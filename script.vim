@@ -686,7 +686,7 @@ if has_key(g:plugs, "coc.nvim")
 					\ 'semanticHighlighting': v:true,
 					\})
 	else
-		let g:coc_global_extensions = ['coc-json', 'coc-clangd', 'coc-go']
+		let g:coc_global_extensions = ['coc-json', 'coc-clangd', 'coc-go', 'coc-python']
 		call coc#config('semanticTokens', {
 					\ 'enable': v:true,
 					\})
