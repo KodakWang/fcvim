@@ -702,6 +702,13 @@ if has_key(g:plugs, "coc.nvim")
 					\})
 	endif
 
+	if v:version >= 900
+		" 关闭嵌入提示（函数形参预览）
+		call coc#config('inlayHint', {
+					\ 'enable': v:false,
+					\})
+	endif
+
 	" call coc#config('intelephense', {
 	" \ 'trace': { 'server': 'messages' }
 	" \ 'format': { 'enable': v:true }
