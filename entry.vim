@@ -116,6 +116,9 @@ source $FCVIM_ROOT/config.vim
 source $FCVIM_ROOT/function.vim
 
 let $FCVIM_TOOLS_CLANGD_CFLAGSDIR = FCVIM_FindFileDirUpward("compile_flags.txt")
+if ($FCVIM_TOOLS_CLANGD_CFLAGSDIR == "")
+	let $FCVIM_TOOLS_CLANGD_CFLAGSDIR = FCVIM_FindFileDirUpward("compile_commands.json")
+endif
 
 source $FCVIM_ROOT/script.vim
 source $FCVIM_ROOT/hotkey.vim

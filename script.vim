@@ -686,7 +686,7 @@ if has_key(g:plugs, "coc.nvim")
 					\ 'semanticHighlighting': v:true,
 					\})
 	else
-		let g:coc_global_extensions = ['coc-json', 'coc-clangd', 'coc-go', 'coc-pyright']
+		let g:coc_global_extensions = ['coc-json', 'coc-clangd', 'coc-pyright'] ", 'coc-go']
 		call coc#config('semanticTokens', {
 					\ 'enable': v:true,
 					\})
@@ -697,9 +697,9 @@ if has_key(g:plugs, "coc.nvim")
 					\ 'path': $FCVIM_TOOLS_CLANGD,
 					\ 'arguments': ['-j=4', '--pch-storage=memory', '--compile-commands-dir=' . $FCVIM_TOOLS_CLANGD_CFLAGSDIR],
 					\})
-		call coc#config('go', {
-					\ 'goplsPath': $GOPATH . '/bin/gopls',
-					\})
+		" call coc#config('go', {
+					" \ 'goplsPath': $GOPATH . '/bin/gopls',
+					" \})
 	endif
 
 	if v:version >= 900
