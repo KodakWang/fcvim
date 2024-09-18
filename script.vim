@@ -676,7 +676,7 @@ if has_key(g:plugs, "coc.nvim")
 		" 以下方式会在vim启动加载coc插件时自动安装拓展插件
 		let g:coc_global_extensions = ['coc-json', 'coc-clangd@0.18.2']
 		call coc#config('coc.preferences', {
-					\ 'rootPatterns': ['.vns', '.svn', '.git', '.hg', '.projections.json'],
+					\ 'rootPatterns': ['.svn', '.git', '.hg', '.projections.json'],
 					\ 'semanticTokensHighlights': v:false,
 					\})
 		" 配置拓展插件，以下方式类似设置languageserver且各插件可单独配
@@ -686,12 +686,12 @@ if has_key(g:plugs, "coc.nvim")
 					\ 'semanticHighlighting': v:true,
 					\})
 	else
-		let g:coc_global_extensions = ['coc-json', 'coc-clangd', 'coc-pyright'] ", 'coc-go']
+		let g:coc_global_extensions = ['coc-json', 'coc-clangd', 'coc-sh', 'coc-pyright'] ", 'coc-go']
 		call coc#config('semanticTokens', {
 					\ 'enable': v:true,
 					\})
 		call coc#config('coc.preferences', {
-					\ 'rootPatterns': ['.vns', '.svn', '.git', '.hg', '.projections.json'],
+					\ 'rootPatterns': ['.svn', '.git', '.hg', '.projections.json'],
 					\})
 		call coc#config('clangd', {
 					\ 'path': $FCVIM_TOOLS_CLANGD,
