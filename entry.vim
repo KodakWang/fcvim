@@ -48,6 +48,7 @@ if !exists('$FCVIM_ROOT')
 		else
 			if isdirectory("c:/msys64")
 				let $PATH = "c:/msys64/ucrt64/bin;c:/msys64/usr/local/bin;c:/msys64/usr/bin;c:/msys64/bin;" . $PATH
+				let $HOME = "c:/msys64/home/" . $USER
 			endif
 		endif
 	endif
