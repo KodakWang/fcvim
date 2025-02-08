@@ -159,6 +159,13 @@ if has("gui_running")
     set guitablabel=%M\ %t
 endif
 
+" 内置文件浏览器（存在C-l热键冲突，先按-切上级目录会概率卡死，开关不能保持状态）
+let g:netrw_banner = 0      " 关闭顶部帮助信息
+let g:netrw_liststyle = 3   " 使用树形结构
+let g:netrw_browse_split = 4 " 在侧边栏打开 netrw
+"let g:netrw_altv = 1        " 让 netrw 侧边栏靠右
+let g:netrw_winsize = 25    " 设定宽度
+
 "----------------------------------------------------------------------
 " encode.
 

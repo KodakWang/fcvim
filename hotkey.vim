@@ -27,8 +27,9 @@ let g:mapleader = ","
 " script
 
 " NERDTree 切换
-" map <leader>[ :NERDTreeToggle<CR>
-map <leader>[ :CocCommand explorer<CR>
+map <leader>[ :NERDTreeToggle<CR>
+" map <leader>[ :CocCommand explorer<CR>
+" map <leader>[ :Lexplore<CR>
 
 " map <leader>] :TlistToggle<CR>
 " map <leader>] :TagbarToggle<CR>

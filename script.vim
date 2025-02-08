@@ -31,11 +31,10 @@ endif
 
 " 风格样式
 Plug 'vim-scripts/EasyColour'
-" Plug 'junegunn/seoul256.vim'
-" linux代码风格
-" Plug 'vivien/vim-linux-coding-style'
 " 配合EasyColour插件的高亮（需要ctags）
 " Plug 'vim-scripts/TagHighlight'
+" linux代码风格
+" Plug 'vivien/vim-linux-coding-style'
 
 " 标题状态栏
 "- Plug 'fholgado/minibufexpl.vim'
@@ -50,9 +49,9 @@ Plug 'vim-airline/vim-airline'
 "- Plug 'preservim/tagbar', { 'on':  'TagbarToggle' }
 Plug 'liuchengxu/vista.vim'
 " 文件浏览器
-if v:version < 802 " 高版本使用coc-explorer
-	Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
-endif
+"if v:version < 802 " 高版本使用coc-explorer（较卡顿）
+Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
+"endif
 
 " 注释
 " 代码注释
@@ -111,7 +110,10 @@ if has_key(g:plugs, "coc.nvim")
 					\ 'semanticHighlighting': v:true,
 					\})
 	else
-		let g:coc_global_extensions = ['coc-explorer', 'coc-json', 'coc-clangd', 'coc-sh', 'coc-pyright', 'coc-go']
+		let g:coc_global_extensions = ['coc-json', 'coc-clangd', 'coc-sh', 'coc-pyright', 'coc-go']
+		if has_key(g:plugs, "nerdtree")
+			let g:coc_global_extensions += ['coc-explorer']
+		endif
 		call coc#config('semanticTokens', {
 					\ 'enable': v:true,
 					\})
@@ -240,12 +242,6 @@ if has_key(g:plugs, "TagHighlight")
        " let g:TagHighlightSettings['ForcedPythonVariant'] = 'compiled'
        " let g:TagHighlightSettings['DebugLevel'] = 'Information'
        " let g:TagHighlightSettings['DebugFile'] = './typesonly.log'
-endif
-
-if has_key(g:plugs, "seoul256")
-	" Color schemes should be loaded after plug#end().
-	" We prepend it with 'silent!' to ignore errors when it's not yet installed.
-	silent! colorscheme seoul256
 endif
 
 "-------------------------------------------------------------------------------
