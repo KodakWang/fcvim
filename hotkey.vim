@@ -27,7 +27,8 @@ let g:mapleader = ","
 " script
 
 " NERDTree 切换
-map <leader>[ :NERDTreeToggle<CR>
+" map <leader>[ :NERDTreeToggle<CR>
+map <leader>[ :CocCommand explorer<CR>
 
 " map <leader>] :TlistToggle<CR>
 " map <leader>] :TagbarToggle<CR>
@@ -155,7 +156,7 @@ vnoremap <silent> # :call VisualSelection('b')<CR>
 vnoremap <silent> <leader>r :call VisualSelection('replace') \| emenu Foo.Bar<CR>
 
 " 快捷注释
-nmap <leader>n` :call FCVIM_CommentHeadAdd('FCLIB', 'Kodak Wang', 'Kodak Wang', 'kodakwang@gmail.com')<cr>
+nmap <leader>n` :call FCVIM_CommentHeadUpdate('Kodak Wang', 'Kodak Wang', 'kodakwang@gmail.com')<cr>
 nmap <leader>n1 a/*----------------------------------------------------------------------*/<esc>
 
 " 更新数据库tags, cscope

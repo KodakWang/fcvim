@@ -22,22 +22,6 @@ let g:fcvim_loaded_function = 1
 "----------------------------------------------------------------------
 " misc
 
-" 注释函数头
-function! NoteFunc()
-    call setline('.','/*')
-    normal o
-    call setline('.','    描述：')
-    let l:retl = line('.')
-    normal o
-    call setline('.','    参数：')
-    normal o
-    call setline('.','    返回：')
-    normal o
-    call setline('.','*/')
-    exe 'normal ' .l:retl. 'G'
-    startinsert!
-endfunction
-
 function! FCVIM_Menu(str)
     execute "menu Foo.Bar :" . a:str
     " emenu在新版本的vim中已经失效，需要手动调用。
@@ -333,7 +317,7 @@ function! FCVIM_CommentHeadAdd(title, team, author, email)
     call setline( 1, '/*')
     call setline( 2, ' * ' . a:title . ': ')
     call setline( 3, ' *')
-    call setline( 4, ' * Copyright (C) 2014-' . strftime('%Y') . ' ' . a:team . '. All rights reserved.')
+    call setline( 4, ' * Copyright (C) ' . (strftime('%Y') - 1) . '-' . strftime('%Y') . ' ' . a:team . '. All rights reserved.')
     call setline( 5, ' *')
     call setline( 6, ' * Created by ' . a:author . ' <' . a:email . '>')
     call setline( 7, ' *')
@@ -343,41 +327,47 @@ function! FCVIM_CommentHeadAdd(title, team, author, email)
     call setline(11, ' *')
     call setline(12, ' * File: ' . expand("%:t"))
     call setline(13, ' * Time: ' . strftime("%Y-%m-%d %H:%M:%S"))
-    call setline(14, ' * Note: ' . "FangChuang is the author's pseudonym.")
+    call setline(14, ' * Modified: ' . strftime("%Y-%m-%d %H:%M:%S"))
     call setline(15, ' */')
     normal 2GA
 endfunction
 
-function! FCVIM_CommentKeysUpdate(max)
+function! FCVIM_CommentHeadKeysUpdate(max)
     silent! normal ms
     let updated = 0
     let n = 1
     "默认为添加
-    while n < a:max
-        let line = getline(n)
-        if line =~ '^.*Copyright (C) 2014-\S*.*$'
-            let newline=substitute(line,':\(\s*\)\(\S.*$\)$',':\1'.strftime('%Y'),'g')
-            call setline(n,newline)
-            let updated = 1
-        endif
-        if line =~ '^.*File:\S*.*$'
-            let newline=substitute(line,':\(\s*\)\(\S.*$\)$',':\1'.expand("%:t"),'g')
-            call setline(n,newline)
-            let updated = 1
-        endif
-        if line =~ '^.*Time:\S*.*$'
-            let newline=substitute(line,':\(\s*\)\(\S.*$\)$',':\1'.strftime("%Y-%m-%d %H:%M:%S"),'g')
-            call setline(n,newline)
-            let updated = 1
-        endif
-        let n = n + 1
+    while n <= a:max
+	    let line = getline(n)
+	    if updated == 0
+		    if line =~ '^.*Copyright (C) \d\{4\}-\S*.*$'
+			    let newline=substitute(line,'-\d\{4\}','-'.strftime('%Y'),'')
+			    call setline(n,newline)
+			    let updated = 1
+		    endif
+	    else
+		    if line =~ '^.*File:\S*.*$'
+			    let newline=substitute(line,':\(\s*\)\(\S.*$\)$',':\1'.expand("%:t"),'g')
+			    call setline(n,newline)
+		    elseif line =~ '^.*Modified:\S*.*$'
+			    let newline=substitute(line,':\(\s*\)\(\S.*$\)$',':\1'.strftime("%Y-%m-%d %H:%M:%S"),'g')
+			    call setline(n,newline)
+		    endif
+	    endif
+	    let n = n + 1
     endwhile
     if updated == 1
         silent! normal 's
         echohl WarningMsg | echo "Succeed to update the copyright." | echohl None
-        return
     endif
-    "call FCVIM_CommentHeadAdd('FCLIB', 'Kodak Wang', 'Kodak Wang', 'kodakwang@gmail.com')
+    return updated
+endfunction
+
+function! FCVIM_CommentHeadUpdate(team, author, email)
+	let updated = FCVIM_CommentHeadKeysUpdate(14)
+	if updated == 0
+		call FCVIM_CommentHeadAdd(expand("%:t"), a:team, a:author, a:email)
+	endif
 endfunction
 
 "----------------------------------------------------------------------
