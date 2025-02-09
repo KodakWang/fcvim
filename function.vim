@@ -21,6 +21,16 @@ let g:fcvim_loaded_function = 1
 
 "----------------------------------------------------------------------
 " misc
+let s:VSPosLine = 0
+let s:VSPosCol = 0
+let s:VSPosLine2 = 0
+let s:VSPosCol2 = 0
+function! FCVIM_RecordVisualSelectionPosition()
+	let s:VSPosLine = line("'<")
+	let s:VSPosCol = col("'<")
+	let s:VSPosLine2 = line("'>")
+	let s:VSPosCol2 = col("'>")
+endfunction
 
 function! FCVIM_Menu(str)
     execute "menu Foo.Bar :" . a:str
@@ -29,23 +39,30 @@ function! FCVIM_Menu(str)
     " unmenu Foo
 endfunction
 
-function! VisualSelection(direction) range
+function! FCVIM_VisualSelection(direction) range
     let l:saved_reg = @"
     execute "normal! vgvy"
 
     let l:pattern = escape(@", '\\/.*$^~[]')
-    let l:pattern = substitute(l:pattern, "\n$", "", "")
+    let l:pattern = substitute(l:pattern, '\n', '\\n', 'g')
+    let l:pattern = substitute(l:pattern, '\r', '\\r', 'g')
 
     if a:direction == 'b'
         execute "normal ?" . l:pattern . "^M"
+    elseif a:direction == 'f'
+        execute "normal /" . l:pattern . "^M"
     elseif a:direction == 'g'
         call FCVIM_Menu('vimgrep ' . '/'. l:pattern . '/' . ' **/*.')
     elseif a:direction == 'G'
         call FCVIM_Menu('vimgrep ' . '/'. l:pattern . '/ ' . expand("%"))
-    elseif a:direction == 'replace'
+    elseif a:direction == 'r'
         call FCVIM_Menu('%s' . '/'. l:pattern . '/')
-    elseif a:direction == 'f'
-        execute "normal /" . l:pattern . "^M"
+    elseif a:direction == 'R'
+        if s:VSPosLine == 0
+            call FCVIM_Menu('s/'. l:pattern . '/')
+        else
+            call FCVIM_Menu(s:VSPosLine . ',' . s:VSPosLine2 . 's/'. l:pattern . '/')
+        endif
     endif
 
     let @/ = l:pattern

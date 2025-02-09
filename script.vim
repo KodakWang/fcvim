@@ -111,7 +111,7 @@ if has_key(g:plugs, "coc.nvim")
 					\})
 	else
 		let g:coc_global_extensions = ['coc-json', 'coc-clangd', 'coc-sh', 'coc-pyright', 'coc-go']
-		if has_key(g:plugs, "nerdtree")
+		if !has_key(g:plugs, "nerdtree")
 			let g:coc_global_extensions += ['coc-explorer']
 		endif
 		call coc#config('semanticTokens', {

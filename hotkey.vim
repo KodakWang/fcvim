@@ -35,9 +35,8 @@ map <leader>[ :NERDTreeToggle<CR>
 " map <leader>] :TagbarToggle<CR>
 map <leader>] :Vista!!<CR>
 
-map <leader>' :YRShow<CR>
-
 " map <leader>' :MBEToggle<CR>
+map <leader>' :YRShow<CR>
 
 " vimgrep搜索结果框
 map <leader>; :call FCVIM_ToggleQuickFix()<cr>
@@ -52,8 +51,8 @@ map <leader>g :vimgrep // **/*.<left><left><left><left><left><left><left>
 map <leader>G :vimgrep // <C-R>%<Home><right><right><right><right><right><right><right><right><right>
 
 " When you press ,g or ,G you vimgrep after the selected text
-vnoremap <silent> <leader>g :call VisualSelection('g') \| emenu Foo.Bar<CR>
-vnoremap <silent> <leader>G :call VisualSelection('G') \| emenu Foo.Bar<CR>
+vnoremap <silent> <leader>g :call FCVIM_VisualSelection('g') \| emenu Foo.Bar<CR>
+vnoremap <silent> <leader>G :call FCVIM_VisualSelection('G') \| emenu Foo.Bar<CR>
 
 " VisualMark
 map <silent> <unique> mm <Plug>Vm_toggle_sign
@@ -131,7 +130,7 @@ vmap <C-s> <Esc>:wa<cr>gv
 " Switch CWD to the directory of the open buffer
 map <leader>cd :cd %:p:h<cr>:pwd<cr>
 " cd top
-map <leader>cdt :call chdir(FCVIM_FindFileDirUpward('tags'))<cr>:pwd<cr>
+map <leader>cdt :call chdir(FCVIM_FindFileDirUpward('.git'))<cr>:pwd<cr>
 
 " Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
 nmap <M-j> mz:m+<cr>`z
@@ -150,11 +149,14 @@ noremap <leader>.<cr> :g/^\s*$/d<cr>
 
 " Visual mode pressing * or # searches for the current selection
 " Super useful! From an idea by Michael Naumann
-vnoremap <silent> * :call VisualSelection('f')<CR>
-vnoremap <silent> # :call VisualSelection('b')<CR>
+vnoremap <silent> * :call FCVIM_VisualSelection('f')<CR>
+vnoremap <silent> # :call FCVIM_VisualSelection('b')<CR>
+
+vnoremap <silent> ; :call FCVIM_RecordVisualSelectionPosition()<CR>
 
 " When you press <leader>r you can search and replace the selected text
-vnoremap <silent> <leader>r :call VisualSelection('replace') \| emenu Foo.Bar<CR>
+vnoremap <silent> <leader>r :call FCVIM_VisualSelection('r') \| emenu Foo.Bar<CR>
+vnoremap <silent> <leader>R :call FCVIM_VisualSelection('R') \| emenu Foo.Bar<CR>
 
 " 快捷注释
 nmap <leader>n` :call FCVIM_CommentHeadUpdate('Kodak Wang', 'Kodak Wang', 'kodakwang@gmail.com')<cr>
