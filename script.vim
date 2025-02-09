@@ -407,13 +407,14 @@ if has_key(g:plugs, "nerdtree")
 	" r 递归刷新当前目录             R 递归刷新当前根目录
 	let NERDChristmasTree=1
 	let NERDTreeAutoCenter=1
-	"let NERDTreeBookmarksFile=$VIM.'\Data\NerdBookmarks.txt'
 	let NERDTreeMouseMode=2
-	"let NERDTreeShowBookmarks=1
+	"let NERDTreeBookmarksFile=$VIM.'\Data\NerdBookmarks.txt'
+	let NERDTreeShowBookmarks=1
 	let NERDTreeShowFiles=1
 	let NERDTreeShowHidden=1
-	"let NERDTreeShowLineNumbers=1
+	" let NERDTreeShowLineNumbers=1
 	let NERDTreeWinPos='left'
+	let NERDTreeMinimalUI = 1
 endif
 
 "-------------------------------------------------------------------------------
