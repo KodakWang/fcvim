@@ -497,7 +497,7 @@ endif
 
 if has_key(g:plugs, "vim-bookmarks")
 	if empty($FCVIM_TOPDIR)
-		let g:bookmark_auto_save_file = '.vim-bookmarks'
+		let g:bookmark_auto_save_file = $FCVIM_TEMP . '/.vim-bookmarks'
 	else
 		let g:bookmark_auto_save_file = $FCVIM_TOPDIR . '/.vim-bookmarks'
 	endif
@@ -551,14 +551,17 @@ if has_key(g:plugs, "vimtweak") || $FCVIM_OS == 'windows'
 		if !exists('g:vimtweak_dll_path')
 			let g:vimtweak_dll_path = $FCVIM_TOOLS . '/vimtweak.dll'
 		endif
-		" 获取 Normal 高亮组的 guibg 值
-		" let guibg_color = matchstr(execute('hi Normal'), 'guibg=#\(\w\+\)')
-		" 提取颜色的十六进制值
-		" let hex_value = substitute(guibg_color, 'guibg=#', '', '')
-		" 这种方法无法生效
-		" autocmd GUIEnter * call libcallnr(g:vimtweak_dll_path, "SetAlpha", str2nr(hex_value, 16))
 
-		autocmd GUIEnter * call libcallnr(g:vimtweak_dll_path, "SetAlpha", 200)
+		if has_key(g:plugs, "EasyColour")
+			autocmd GUIEnter * call libcallnr(g:vimtweak_dll_path, "SetAlpha", 200)
+		else
+			" 获取 Normal 高亮组的 guibg 值
+			" let guibg_color = matchstr(execute('hi Normal'), 'guibg=#\(\w\+\)')
+			" 提取颜色的十六进制值
+			" let hex_value = substitute(guibg_color, 'guibg=#', '', '')
+			" 这种方法无法生效
+			" autocmd GUIEnter * call libcallnr(g:vimtweak_dll_path, "SetAlpha", str2nr(hex_value, 16))
+		endif
 		autocmd GUIEnter * call libcallnr(g:vimtweak_dll_path, "EnableMaximize", 1)
 		autocmd GUIEnter * call libcallnr(g:vimtweak_dll_path, "EnableTopMost", 1)
 		autocmd GUIEnter * call libcallnr(g:vimtweak_dll_path, "EnableCaption", 1)
