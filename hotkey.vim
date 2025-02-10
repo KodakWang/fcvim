@@ -55,9 +55,9 @@ vnoremap <silent> <leader>g :call FCVIM_VisualSelection('g') \| emenu Foo.Bar<CR
 vnoremap <silent> <leader>G :call FCVIM_VisualSelection('G') \| emenu Foo.Bar<CR>
 
 " VisualMark
-map <silent> <unique> mm <Plug>Vm_toggle_sign
-map <unique> m, <Plug>Vm_goto_next_sign
-map <unique> m. <Plug>Vm_goto_prev_sign
+" map <silent> <unique> mm <Plug>Vm_toggle_sign
+" map <unique> m, <Plug>Vm_goto_next_sign
+" map <unique> m. <Plug>Vm_goto_prev_sign
 
 " fzf
 map <leader>ff :Files<cr>
@@ -75,6 +75,12 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
+nmap <silent><leader>is :CocCommand clangd.switchSourceHeader<cr>
+
+" Highlight the symbol and its references when holding the cursor
+autocmd CursorHold * silent call CocActionAsync('highlight')
+" highlight CocHighlightText cterm=bold gui=bold
+
 if 0 " 优化coc插件的补全效果
 " fix backspace issue: remove prev char loss preview on input mode.
 imap <expr><backspace> FCVIM_KeySmartBackspace2()
@@ -88,7 +94,6 @@ autocmd InsertLeave * call FCVIM_StopTimer()
 " 插件启动事件回调（定时器模拟）
 call FCVIM_StartTimer(500, 'FCVIM_PluginStartupProc')
 endif
-nmap <silent><leader>is :CocCommand clangd.switchSourceHeader<cr>
 
 "----------------------------------------------------------------------
 " misc
@@ -130,7 +135,7 @@ vmap <C-s> <Esc>:wa<cr>gv
 " Switch CWD to the directory of the open buffer
 map <leader>cd :cd %:p:h<cr>:pwd<cr>
 " cd top
-map <leader>cdt :call chdir(FCVIM_FindFileDirUpward('.git'))<cr>:pwd<cr>
+map <leader>cdt :call chdir($FCVIM_TOPDIR)<cr>:pwd<cr>
 
 " Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
 nmap <M-j> mz:m+<cr>`z

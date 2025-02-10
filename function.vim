@@ -76,6 +76,7 @@ let s:BufValidNum = 0
 let s:BufIgnoreList = [
             \'-MiniBufExplorer-',
             \'NERD_tree_1',
+            \'NERD_tree_tab_1',
             \'__Tag_List__',
             \'__vista__',
             \'[YankRing]',
@@ -207,7 +208,8 @@ function! FCVIM_FindFileDirUpward(name)
     let l:prev_dir = ''
 
     while isdirectory(l:dir) && l:dir != l:prev_dir
-        if filereadable(l:dir . '/' . a:name)
+        "if filereadable(l:dir . '/' . a:name)
+	if !empty(glob(l:dir . '/' . a:name))
             return l:dir
         endif
 

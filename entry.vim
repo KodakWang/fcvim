@@ -116,9 +116,13 @@ set runtimepath=$FCVIM_ROOT,$VIMRUNTIME
 source $FCVIM_ROOT/config.vim
 source $FCVIM_ROOT/function.vim
 
+let $FCVIM_TOPDIR = FCVIM_FindFileDirUpward(".git")
 let $FCVIM_TOOLS_CLANGD_CFLAGSDIR = FCVIM_FindFileDirUpward("compile_flags.txt")
 if ($FCVIM_TOOLS_CLANGD_CFLAGSDIR == "")
 	let $FCVIM_TOOLS_CLANGD_CFLAGSDIR = FCVIM_FindFileDirUpward("compile_commands.json")
+	if ($FCVIM_TOOLS_CLANGD_CFLAGSDIR == "")
+		let $FCVIM_TOOLS_CLANGD_CFLAGSDIR = $FCVIM_TOPDIR
+	endif
 endif
 
 source $FCVIM_ROOT/script.vim

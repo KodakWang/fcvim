@@ -30,11 +30,14 @@ else
 endif
 
 " 风格样式
-Plug 'vim-scripts/EasyColour'
+" Plug 'vim-scripts/EasyColour'
 " 配合EasyColour插件的高亮（需要ctags）
 " Plug 'vim-scripts/TagHighlight'
 " linux代码风格
 " Plug 'vivien/vim-linux-coding-style'
+" 插件图标
+" Plug 'ryanoasis/vim-devicons'
+Plug 'joshdick/onedark.vim'
 
 " 标题状态栏
 "- Plug 'fholgado/minibufexpl.vim'
@@ -221,18 +224,6 @@ if has_key(g:plugs, "EasyColour")
 		highlight CursorLine term=underline cterm=underline ctermbg=DarkGray guibg=DarkGray
 		highlight CursorColumn term=reverse ctermbg=DarkGray guibg=DarkGray
 	endif
-	if has("gui_running")
-		" 设置保护色
-		" highlight Normal guifg=black guibg=#cce8cf
-
-		" 设置背景透明
-		" highlight Normal guibg=None
-		" highlight NonText guibg=None
-	else
-		" 设置背景透明
-		highlight Normal ctermbg=None
-		highlight NonText ctermbg=None
-	endif
 endif
 
 if has_key(g:plugs, "TagHighlight")
@@ -242,6 +233,41 @@ if has_key(g:plugs, "TagHighlight")
        " let g:TagHighlightSettings['ForcedPythonVariant'] = 'compiled'
        " let g:TagHighlightSettings['DebugLevel'] = 'Information'
        " let g:TagHighlightSettings['DebugFile'] = './typesonly.log'
+endif
+
+if has_key(g:plugs, 'onedark.vim')
+	"Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
+	"If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
+	"(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
+	if (empty($TMUX))
+		if (has("nvim"))
+			"For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+			let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+		endif
+		"For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
+		"Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
+		" < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
+		if (has("termguicolors"))
+			set termguicolors
+		endif
+	endif
+
+	" 设置主题
+	colorscheme onedark
+endif
+
+" 更好的支持各种模式下的背景透明
+if has("gui_running")
+	" 设置保护色
+	" highlight Normal guifg=black guibg=#cce8cf
+
+	" 设置背景透明
+	" highlight Normal guibg=None
+	" highlight NonText guibg=None
+else
+	" 设置背景透明
+	highlight Normal ctermbg=None guibg=NONE
+	highlight NonText ctermbg=None guibg=NONE
 endif
 
 "-------------------------------------------------------------------------------
@@ -408,8 +434,12 @@ if has_key(g:plugs, "nerdtree")
 	let NERDChristmasTree=1
 	let NERDTreeAutoCenter=1
 	let NERDTreeMouseMode=2
-	"let NERDTreeBookmarksFile=$VIM.'\Data\NerdBookmarks.txt'
-	let NERDTreeShowBookmarks=1
+	if empty($FCVIM_TOPDIR)
+		let NERDTreeBookmarksFile = '.NERDTreeBookmarks'
+	else
+		let NERDTreeBookmarksFile = $FCVIM_TOPDIR . '/.NERDTreeBookmarks'
+	endif
+	"let NERDTreeShowBookmarks=1
 	let NERDTreeShowFiles=1
 	let NERDTreeShowHidden=1
 	" let NERDTreeShowLineNumbers=1
@@ -465,6 +495,31 @@ if has_key(g:plugs, "visualmark")
 	endif
 endif
 
+if has_key(g:plugs, "vim-bookmarks")
+	if empty($FCVIM_TOPDIR)
+		let g:bookmark_auto_save_file = '.vim-bookmarks'
+	else
+		let g:bookmark_auto_save_file = $FCVIM_TOPDIR . '/.vim-bookmarks'
+	endif
+
+	" 书签可以改成自己喜欢的符号，如: ⚑、★或♥
+	let g:bookmark_sign = '☆'
+	let g:bookmark_annotation_sign = '★'
+
+	" let g:bookmark_highlight_lines = 1
+	" if &bg == "dark"    " 根据你的背景色风格来设置不同的书签颜色
+		" highlight BookmarkSign ctermfg=white ctermbg=blue guifg=wheat guibg=peru
+		" highlight BookmarkAnnotationSign ctermfg=white ctermbg=blue guifg=wheat guibg=peru
+		" highlight BookmarkLine ctermfg=white ctermbg=blue guifg=wheat guibg=peru
+		" highlight BookmarkAnnotationLine ctermfg=white ctermbg=blue guifg=wheat guibg=peru
+	" else                " 主要就是修改guibg的值来设置书签的颜色
+		" highlight BookmarkSign ctermbg=white ctermfg=blue guibg=grey guifg=RoyalBlue3
+		" highlight BookmarkAnnotationSign ctermbg=white ctermfg=blue guibg=grey guifg=RoyalBlue3
+		" highlight BookmarkLine ctermbg=white ctermfg=blue guibg=grey guifg=RoyalBlue3
+		" highlight BookmarkAnnotationLine ctermbg=white ctermfg=blue guibg=grey guifg=RoyalBlue3
+	" endif
+endif
+
 if has_key(g:plugs, "fzf")
 	" CTRL-A CTRL-Q to select all and build quickfix list
 	function! s:build_quickfix_list(lines)
@@ -496,6 +551,13 @@ if has_key(g:plugs, "vimtweak") || $FCVIM_OS == 'windows'
 		if !exists('g:vimtweak_dll_path')
 			let g:vimtweak_dll_path = $FCVIM_TOOLS . '/vimtweak.dll'
 		endif
+		" 获取 Normal 高亮组的 guibg 值
+		" let guibg_color = matchstr(execute('hi Normal'), 'guibg=#\(\w\+\)')
+		" 提取颜色的十六进制值
+		" let hex_value = substitute(guibg_color, 'guibg=#', '', '')
+		" 这种方法无法生效
+		" autocmd GUIEnter * call libcallnr(g:vimtweak_dll_path, "SetAlpha", str2nr(hex_value, 16))
+
 		autocmd GUIEnter * call libcallnr(g:vimtweak_dll_path, "SetAlpha", 200)
 		autocmd GUIEnter * call libcallnr(g:vimtweak_dll_path, "EnableMaximize", 1)
 		autocmd GUIEnter * call libcallnr(g:vimtweak_dll_path, "EnableTopMost", 1)

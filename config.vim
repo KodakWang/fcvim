@@ -166,6 +166,14 @@ let g:netrw_browse_split = 4 " 在侧边栏打开 netrw
 "let g:netrw_altv = 1        " 让 netrw 侧边栏靠右
 let g:netrw_winsize = 25    " 设定宽度
 
+" Having longer updatetime (default is 4000 ms = 4s) leads to noticeable
+" delays and poor user experience
+set updatetime=300
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved
+set signcolumn=yes
+
 "----------------------------------------------------------------------
 " encode.
 
