@@ -121,24 +121,22 @@ set foldlevel=100           " 关闭自动折叠
 "----------------------------------------------------------------------
 " indent
 
-" if !exists("g:loaded_linuxsty")
-" set expandtab       " Use spaces instead of tabs
-" set smarttab        " Be smart when using tabs ;)
+set expandtab       " Use spaces instead of tabs
+set smarttab        " Be smart when using tabs ;)
 
-" set tabstop=4               " 1 tab == 4 spaces
-" set shiftwidth=4            " indent number
+set tabstop=4               " 1 tab == 4 spaces
+set shiftwidth=4            " indent number
 
-" set autoindent              " Auto indent
-" set smartindent             " Smart indent
-" set cindent                 " 自动缩进4空格
-" set cinoptions=:0
-" endif
-
-"set list                        "设置制表符成为可见的字符
-set listchars=tab:>-,trail:-    "使制表符以">---"显示, 同时行尾空格以"-"显示"
+set autoindent              " Auto indent
+set smartindent             " Smart indent
+set cindent                 " 自动缩进4空格
+set cinoptions=:0
 
 "----------------------------------------------------------------------
 " display
+
+"set list                        "设置制表符成为可见的字符
+set listchars=tab:>·,trail:-    "使制表符以">···"显示, 同时行尾空格以"-"显示"
 
 syntax enable                   " 打开语法高亮
 syntax on                       " 自动语法高亮

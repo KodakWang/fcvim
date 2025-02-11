@@ -25,11 +25,21 @@ let s:VSPosLine = 0
 let s:VSPosCol = 0
 let s:VSPosLine2 = 0
 let s:VSPosCol2 = 0
+
 function! FCVIM_RecordVisualSelectionPosition()
+	" :echo a:firstline a:lastline
 	let s:VSPosLine = line("'<")
 	let s:VSPosCol = col("'<")
 	let s:VSPosLine2 = line("'>")
 	let s:VSPosCol2 = col("'>")
+	" :echo s:VSPosLine s:VSPosLine2
+endfunction
+
+function! FCVIM_ClearVisualSelectionPosition()
+	let s:VSPosLine = 0
+	let s:VSPosCol = 0
+	let s:VSPosLine2 = 0
+	let s:VSPosCol2 = 0
 endfunction
 
 function! FCVIM_Menu(str)
@@ -37,6 +47,10 @@ function! FCVIM_Menu(str)
     " emenu在新版本的vim中已经失效，需要手动调用。
     " emenu Foo.Bar
     " unmenu Foo
+endfunction
+
+function FCVIM_IsWordChar(ch)
+	return stridx("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_", a:ch) >= 0
 endfunction
 
 function! FCVIM_VisualSelection(direction) range
@@ -47,6 +61,13 @@ function! FCVIM_VisualSelection(direction) range
     let l:pattern = substitute(l:pattern, '\n', '\\n', 'g')
     let l:pattern = substitute(l:pattern, '\r', '\\r', 'g')
 
+    if !FCVIM_IsWordChar(getline(line("'<"))[col("'<") - 2])
+        let l:pattern = '\<' . l:pattern
+    endif
+    if !FCVIM_IsWordChar(getline(line("'>"))[col("'>")])
+        let l:pattern = l:pattern . '\>'
+    endif
+
     if a:direction == 'b'
         execute "normal ?" . l:pattern . "^M"
     elseif a:direction == 'f'
@@ -56,17 +77,34 @@ function! FCVIM_VisualSelection(direction) range
     elseif a:direction == 'G'
         call FCVIM_Menu('vimgrep ' . '/'. l:pattern . '/ ' . expand("%"))
     elseif a:direction == 'r'
-        call FCVIM_Menu('%s' . '/'. l:pattern . '/')
-    elseif a:direction == 'R'
         if s:VSPosLine == 0
-            call FCVIM_Menu('s/'. l:pattern . '/')
+            call FCVIM_Menu('%s/'. l:pattern . '//g')
         else
-            call FCVIM_Menu(s:VSPosLine . ',' . s:VSPosLine2 . 's/'. l:pattern . '/')
+            call FCVIM_Menu(s:VSPosLine . ',' . s:VSPosLine2 . 's/'. l:pattern . '//g')
         endif
+    elseif a:direction == 'R'
+        call FCVIM_Menu('cfdo %s/'. l:pattern . '//g')
     endif
 
     let @/ = l:pattern
     let @" = l:saved_reg
+endfunction
+
+function! FCVIM_NormalCommand(direction)
+    let l:pattern = ''
+    if a:direction == 'g'
+        call FCVIM_Menu('vimgrep ' . '/'. l:pattern . '/' . ' **/*.' . '<Left><Left><Left><Left><Left><Left><Left>')
+    " elseif a:direction == 'G'
+        " call FCVIM_Menu('vimgrep ' . '/'. l:pattern . '/ ' . expand("%"))
+    elseif a:direction == 'r'
+        if s:VSPosLine == 0
+            call FCVIM_Menu('%s/'. l:pattern . '//g' . '<Left><Left><Left>')
+        else
+            call FCVIM_Menu(s:VSPosLine . ',' . s:VSPosLine2 . 's/'. l:pattern . '//g' . '<Left><Left><Left>')
+        endif
+    elseif a:direction == 'R'
+        call FCVIM_Menu('cfdo %s/'. l:pattern . '//g' . '<Left><Left><Left>')
+    endif
 endfunction
 
 "----------------------------------------------------------------------
@@ -184,6 +222,7 @@ function! FCVIM_ToggleList()
     else
         set list
     endif
+    execute 'IndentLinesToggle'
 endfunction
 
 let s:QuickFix = 0
@@ -391,10 +430,6 @@ endfunction
 
 "----------------------------------------------------------------------
 " extension
-
-function FCVIM_IsWordChar(ch)
-	return stridx("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_", a:ch) >= 0
-endfunction
 
 function FCVIM_CanCompletion(ch)
 	if (FCVIM_IsWordChar(a:ch))

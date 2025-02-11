@@ -31,13 +31,15 @@ endif
 
 " 风格样式
 " Plug 'vim-scripts/EasyColour'
+Plug 'joshdick/onedark.vim'
 " 配合EasyColour插件的高亮（需要ctags）
 " Plug 'vim-scripts/TagHighlight'
 " linux代码风格
 " Plug 'vivien/vim-linux-coding-style'
 " 插件图标
 " Plug 'ryanoasis/vim-devicons'
-Plug 'joshdick/onedark.vim'
+" 缩进线
+Plug 'Yggdroot/indentLine'
 
 " 标题状态栏
 "- Plug 'fholgado/minibufexpl.vim'
@@ -255,6 +257,10 @@ if has_key(g:plugs, 'onedark.vim')
 	" 设置主题
 	colorscheme onedark
 endif
+
+" if has_key(g:plugs, 'indentLine')
+
+" endif
 
 " 更好的支持各种模式下的背景透明
 if has("gui_running")
