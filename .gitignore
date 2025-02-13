@@ -2,3 +2,4 @@ plugged/*
 autoload/*.old
 .netrwhist
 .vim-bookmarks
+.NERDTreeBookmarks

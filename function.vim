@@ -27,12 +27,14 @@ let s:VSPosLine2 = 0
 let s:VSPosCol2 = 0
 
 function! FCVIM_RecordVisualSelectionPosition()
-	" :echo a:firstline a:lastline
+    " :echo a:firstline a:lastline
 	let s:VSPosLine = line("'<")
 	let s:VSPosCol = col("'<")
 	let s:VSPosLine2 = line("'>")
 	let s:VSPosCol2 = col("'>")
 	" :echo s:VSPosLine s:VSPosLine2
+    let l:pos = [0, s:VSPosLine, s:VSPosCol, 0]
+    call setpos('.', l:pos)
 endfunction
 
 function! FCVIM_ClearVisualSelectionPosition()

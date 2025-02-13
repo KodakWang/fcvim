@@ -120,7 +120,8 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 augroup mygroup
   autocmd!
   " Setup formatexpr specified filetype(s)
-  autocmd FileType typescript,json,c,cpp,go,python,sh setl formatexpr=CocAction('formatSelected')
+  autocmd FileType typescript,json,c,cpp,go,python setl formatexpr=CocAction('formatSelected')
+  autocmd FileType sh let &l:formatprg='shfmt -i ' . &l:shiftwidth . ' -ln posix -sr -ci -s'
   " Update signature help on jump placeholder
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
@@ -177,8 +178,8 @@ xmap <silent> <C-S-right> <Plug>(coc-range-select)
 " " Add `:Fold` command to fold current buffer
 " command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
-" " Add `:OR` command for organize imports of the current buffer
-" command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
+" Add `:OR` command for organize imports of the current buffer
+command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
 
 " " Add (Neo)Vim's native statusline support
 " " NOTE: Please see `:h coc-status` for integrations with external plugins that
@@ -261,8 +262,8 @@ noremap <leader>.<tab> :%s=\t*$==<cr>:noh<cr><c-o>
 noremap <leader>.<cr> :g/^\s*$/d<cr>
 
 " 记录状态
-vmap <leader>, <Esc>:call FCVIM_RecordVisualSelectionPosition()<cr>
-nmap <leader>, <Cmd>call FCVIM_ClearVisualSelectionPosition()<cr>
+vmap <silent><leader>, <Esc><Cmd>call FCVIM_RecordVisualSelectionPosition()<cr>
+nmap <silent><leader>, <Cmd>call FCVIM_ClearVisualSelectionPosition()<cr>
 
 " Visual mode pressing * or # searches for the current selection
 " Super useful! From an idea by Michael Naumann

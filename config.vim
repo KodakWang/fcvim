@@ -56,10 +56,10 @@ set nocompatible                " 关闭VI兼容模式
 set history=700                 " 历史记录
 set magic                       " 正则规划反斜杠
 set hidden                      " 允许未保存缓冲区
-if $FCVIM_OS == 'windows'
-set mouse=a                     " 鼠标可用
+if has("gui_running")
+    set mouse=a                     " 鼠标可用
 else
-set mouse=r                     " 鼠标的复制可用（行号需要关闭）
+    set mouse=r                     " 鼠标的复制可用（行号需要关闭）
 endif
 
 " No annoying sound on errors
@@ -136,7 +136,7 @@ set cinoptions=:0
 " display
 
 "set list                        "设置制表符成为可见的字符
-set listchars=tab:>·,trail:-    "使制表符以">···"显示, 同时行尾空格以"-"显示"
+set listchars=tab:>-,trail:-    "使制表符以">···"显示, 同时行尾空格以"-"显示"
 
 syntax enable                   " 打开语法高亮
 syntax on                       " 自动语法高亮

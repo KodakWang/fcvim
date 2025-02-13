@@ -58,11 +58,15 @@ Plug 'liuchengxu/vista.vim'
 Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
 "endif
 
-" 注释
+" 代码
 " 代码注释
 Plug 'preservim/nerdcommenter'
 " doxygen注释
 Plug 'vim-scripts/DoxygenToolkit.vim'
+" shell格式化插件
+if $FCVIM_OS == "windows"
+    Plug 'z0mbix/vim-shfmt', { 'for': 'sh' }
+endif
 
 " 索引跳转
 " 头文件和源文件之间的切换(代替:CocCommand clangd.switchSourceHeader)
@@ -115,10 +119,13 @@ if has_key(g:plugs, "coc.nvim")
 					\ 'semanticHighlighting': v:true,
 					\})
 	else
-		let g:coc_global_extensions = ['coc-json', 'coc-clangd', 'coc-sh', 'coc-pyright', 'coc-go']
+		let g:coc_global_extensions = ['coc-json', 'coc-clangd', 'coc-pyright', 'coc-go']
 		if !has_key(g:plugs, "nerdtree")
 			let g:coc_global_extensions += ['coc-explorer']
 		endif
+		if !has_key(g:plugs, "vim-shfmt")
+			let g:coc_global_extensions += ['coc-sh']
+        endif
 		call coc#config('semanticTokens', {
 					\ 'enable': v:true,
 					\})
@@ -258,9 +265,13 @@ if has_key(g:plugs, 'onedark.vim')
 	colorscheme onedark
 endif
 
-" if has_key(g:plugs, 'indentLine')
+if has_key(g:plugs, 'indentLine')
+    " 显示第一列缩进线
+    let g:indentLine_showFirstIndentLevel = 1
 
-" endif
+    " 让 indentLine 显示¦
+    let g:indentLine_char = '¦'
+endif
 
 " 更好的支持各种模式下的背景透明
 if has("gui_running")
@@ -454,7 +465,7 @@ if has_key(g:plugs, "nerdtree")
 endif
 
 "-------------------------------------------------------------------------------
-" 注释
+" 代码
 
 if has_key(g:plugs, "nerdcommenter")
 	" [count],cc 光标以下count行逐行添加注释(7,cc)
@@ -482,6 +493,10 @@ if has_key(g:plugs, "DoxygenToolkit.vim")
 	" let g:DoxygenToolkit_licenseTag = s:licenseTag
 	" let g:DoxygenToolkit_briefTag_funcName="yes"
 	" let g:doxygen_enhanced_color=1
+endif
+
+if has_key(g:plugs, "vim-shfmt")
+    autocmd FileType sh nnoremap <buffer><silent> <leader>fd <Cmd>execute 'Shfmt -i ' . &l:shiftwidth . ' -ln posix -sr -ci -s'<CR>
 endif
 
 "-------------------------------------------------------------------------------
@@ -526,23 +541,8 @@ if has_key(g:plugs, "vim-bookmarks")
 	" endif
 endif
 
-if has_key(g:plugs, "fzf")
-	" CTRL-A CTRL-Q to select all and build quickfix list
-	function! s:build_quickfix_list(lines)
-		call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
-		" copen
-		" cc
-		call FCVIM_ToggleQuickFix()
-	endfunction
-
-	let g:fzf_action = {
-				\ 'ctrl-q': function('s:build_quickfix_list'),
-				\ 'ctrl-t': 'tab split',
-				\ 'ctrl-x': 'split',
-				\ 'ctrl-v': 'vsplit' }
-
-	let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
-endif
+" if has_key(g:plugs, "fzf")
+" endif
 
 "-------------------------------------------------------------------------------
 " 其他
