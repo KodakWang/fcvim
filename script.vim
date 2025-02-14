@@ -271,6 +271,9 @@ if has_key(g:plugs, 'indentLine')
 
     " 让 indentLine 显示¦
     let g:indentLine_char = '¦'
+
+    " 排除一些不兼容的文件类型
+    let g:indentLine_fileTypeExclude = ['json']
 endif
 
 " 更好的支持各种模式下的背景透明

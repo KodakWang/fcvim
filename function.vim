@@ -224,7 +224,10 @@ function! FCVIM_ToggleList()
     else
         set list
     endif
-    execute 'IndentLinesToggle'
+
+    if index(g:indentLine_fileTypeExclude, &filetype) == -1
+        execute 'IndentLinesToggle'
+    endif
 endfunction
 
 let s:QuickFix = 0
