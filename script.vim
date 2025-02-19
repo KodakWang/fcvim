@@ -54,9 +54,9 @@ Plug 'vim-airline/vim-airline'
 "- Plug 'preservim/tagbar', { 'on':  'TagbarToggle' }
 Plug 'liuchengxu/vista.vim'
 " 文件浏览器
-"if v:version < 802 " 高版本使用coc-explorer（较卡顿）
-Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
-"endif
+if v:version < 802 " 高版本使用coc-explorer（较卡顿）
+    Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
+endif
 
 " 代码
 " 代码注释
@@ -122,7 +122,16 @@ if has_key(g:plugs, "coc.nvim")
 		let g:coc_global_extensions = ['coc-json', 'coc-clangd', 'coc-pyright', 'coc-go']
 		if !has_key(g:plugs, "nerdtree")
 			let g:coc_global_extensions += ['coc-explorer']
-		endif
+            call coc#config('explorer.icon', {
+                        \ 'enableNerdfont': v:true,
+                        \})
+            call coc#config('explorer.file.reveal', {
+                        \ 'whenOpen': v:false,
+                        \})
+            call coc#config('explorer.sources', [
+                        \ { 'name': 'file', 'expand': v:true, },
+                        \])
+        endif
 		if !has_key(g:plugs, "vim-shfmt")
 			let g:coc_global_extensions += ['coc-sh']
         endif
@@ -273,7 +282,7 @@ if has_key(g:plugs, 'indentLine')
     let g:indentLine_char = '¦'
 
     " 排除一些不兼容的文件类型
-    let g:indentLine_fileTypeExclude = ['json']
+    let g:indentLine_fileTypeExclude = ['json', 'coc-explorer']
 endif
 
 " 更好的支持各种模式下的背景透明
@@ -499,7 +508,7 @@ if has_key(g:plugs, "DoxygenToolkit.vim")
 endif
 
 if has_key(g:plugs, "vim-shfmt")
-    autocmd FileType sh nnoremap <buffer><silent> <leader>fd <Cmd>execute 'Shfmt -i ' . &l:shiftwidth . ' -ln posix -sr -ci -s'<CR>
+    autocmd FileType sh nnoremap <buffer><silent> <leader>fd <Cmd>execute 'Shfmt -i ' . &l:shiftwidth . ' -ln auto -sr -ci -s'<CR>
 endif
 
 "-------------------------------------------------------------------------------

@@ -55,6 +55,20 @@ function FCVIM_IsWordChar(ch)
 	return stridx("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_", a:ch) >= 0
 endfunction
 
+function FCVIM_IsUnicodeChar(ch)
+    return char2nr(a:ch) > 0x7f
+endfunction
+
+function FCVIM_ContainsSymbol(str)
+    for i in range(0, len(a:str) - 1)
+        let l:ch = a:str[i]
+        if !FCVIM_IsWordChar(l:ch) && !FCVIM_IsUnicodeChar(l:ch)
+            return 1
+        endif
+    endfor
+    return 0
+endfunction
+
 function! FCVIM_VisualSelection(direction) range
     let l:saved_reg = @"
     execute "normal! vgvy"
@@ -63,11 +77,20 @@ function! FCVIM_VisualSelection(direction) range
     let l:pattern = substitute(l:pattern, '\n', '\\n', 'g')
     let l:pattern = substitute(l:pattern, '\r', '\\r', 'g')
 
-    if !FCVIM_IsWordChar(getline(line("'<"))[col("'<") - 2])
-        let l:pattern = '\<' . l:pattern
-    endif
-    if !FCVIM_IsWordChar(getline(line("'>"))[col("'>")])
-        let l:pattern = l:pattern . '\>'
+    if !FCVIM_ContainsSymbol(@")
+        let l:char = getline(line("'<"))[col("'<") - 2]
+        if (!FCVIM_IsWordChar(l:char) && !FCVIM_IsUnicodeChar(l:char)) || empty(l:char)
+            let l:pattern = '\<' . l:pattern
+        endif
+
+        if !FCVIM_IsUnicodeChar(getline(line("'>"))[col("'>") - 1])
+            let l:char = getline(line("'>"))[col("'>")]
+        else
+            let l:char = getline(line("'>"))[col("'>") + 2]
+        endif
+        if (!FCVIM_IsWordChar(l:char) && !FCVIM_IsUnicodeChar(l:char)) || empty(l:char)
+            let l:pattern = l:pattern . '\>'
+        endif
     endif
 
     if a:direction == 'b'
@@ -120,6 +143,7 @@ let s:BufIgnoreList = [
             \'__Tag_List__',
             \'__vista__',
             \'[YankRing]',
+            \'[coc-explorer]-1',
             \'']
 function! FCVIM_BufferIsValid(buf)
     let l:bufname = bufname(a:buf)
