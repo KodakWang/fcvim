@@ -54,7 +54,7 @@ Plug 'vim-airline/vim-airline'
 "- Plug 'preservim/tagbar', { 'on':  'TagbarToggle' }
 Plug 'liuchengxu/vista.vim'
 " 文件浏览器
-if v:version < 802 " 高版本使用coc-explorer（较卡顿）
+if v:version < 802 " 高版本使用coc-explorer（获取或改变目录不好实现）
     Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
 endif
 
@@ -128,9 +128,27 @@ if has_key(g:plugs, "coc.nvim")
             call coc#config('explorer.file.reveal', {
                         \ 'whenOpen': v:false,
                         \})
+            " call coc#config('explorer.root', {
+                        " \ 'strategies': [ 'keep', ],
+                        " \})
             call coc#config('explorer.sources', [
                         \ { 'name': 'file', 'expand': v:true, },
                         \])
+            call coc#config('explorer', {
+                        \ 'keyMappingMode': 'none',
+                        \})
+            call coc#config('explorer.keyMappings.global', {
+                        \ "<tab>": "actionMenu",
+                        \ "?": "help",
+                        \ "I": "toggleHidden",
+                        \ "<cr>": ["wait", "expandable?", ["expanded?", "collapse", "expand"], "open"],
+                        \ "u": ["wait", "gotoParent", "collapse"],
+                        \ "U": ["wait", "gotoParent", "indentPrev"],
+                        \ "C": "cd",
+                        \ "ma": "addFile",
+                        \ "md": "deleteForever",
+                        \ "mp": "copyFilePath",
+                        \})
         endif
 		if !has_key(g:plugs, "vim-shfmt")
 			let g:coc_global_extensions += ['coc-sh']
@@ -138,9 +156,9 @@ if has_key(g:plugs, "coc.nvim")
 		call coc#config('semanticTokens', {
 					\ 'enable': v:true,
 					\})
-		call coc#config('coc.preferences', {
-					\ 'rootPatterns': ['.svn', '.git', '.hg', '.projections.json'],
-					\})
+        call coc#config('coc.preferences', {
+                    \ 'rootPatterns': ['.svn', '.git', '.hg', '.projections.json'],
+                    \})
 		call coc#config('clangd', {
 					\ 'path': $FCVIM_TOOLS_CLANGD,
 					\ 'arguments': ['-j=4', '--pch-storage=memory', '--compile-commands-dir=' . $FCVIM_TOOLS_CLANGD_CFLAGSDIR],
@@ -470,7 +488,7 @@ if has_key(g:plugs, "nerdtree")
 	endif
 	"let NERDTreeShowBookmarks=1
 	let NERDTreeShowFiles=1
-	let NERDTreeShowHidden=1
+	let NERDTreeShowHidden=0
 	" let NERDTreeShowLineNumbers=1
 	let NERDTreeWinPos='left'
 	let NERDTreeMinimalUI = 1
