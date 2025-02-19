@@ -54,7 +54,7 @@ Plug 'vim-airline/vim-airline'
 "- Plug 'preservim/tagbar', { 'on':  'TagbarToggle' }
 Plug 'liuchengxu/vista.vim'
 " 文件浏览器
-if v:version < 802 " 高版本使用coc-explorer（获取或改变目录不好实现）
+if v:version < 802 " 高版本使用coc-explorer（尽量兼容nerdtree的快捷键）
     Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
 endif
 
@@ -149,6 +149,18 @@ if has_key(g:plugs, "coc.nvim")
                         \ "md": "deleteForever",
                         \ "mp": "copyFilePath",
                         \})
+            function FCVIM_CocExplorerGetNodeDir()
+                let node = CocAction('runCommand', 'explorer.getNodeInfo', 0)
+                if !empty(node)
+                   let path = node['fullpath'] 
+                   if isdirectory(path)
+                       return path
+                   endif
+                   return fnamemodify(path, ':h')
+                endif
+                return ""
+            endfunction
+            autocmd FileType coc-explorer nnoremap <buffer> cd <Cmd>call chdir(FCVIM_CocExplorerGetNodeDir())<CR><Cmd>echo "chdir " . getcwd()<CR>
         endif
 		if !has_key(g:plugs, "vim-shfmt")
 			let g:coc_global_extensions += ['coc-sh']
