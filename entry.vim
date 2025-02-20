@@ -42,16 +42,16 @@ endif
 if !exists('$FCVIM_ROOT')
 	let $FCVIM_ROOT = expand('<sfile>:p:h')
 	" 路径转换
-	if $FCVIM_OS == 'windows'
-		if has("win32unix") && strpart($FCVIM_ROOT, 2, 1) == '/'
-			let $FCVIM_ROOT = strpart($FCVIM_ROOT, 1, 1) . ':' . strpart($FCVIM_ROOT, 2)
-		else
-			if isdirectory("c:/msys64")
-				let $PATH = "c:/msys64/ucrt64/bin;c:/msys64/usr/local/bin;c:/msys64/usr/bin;c:/msys64/bin;" . $PATH
-				let $HOME = "c:/msys64/home/" . $USER
-			endif
-		endif
-	endif
+    if $FCVIM_OS == 'windows'
+        if has("win32unix") && strpart($FCVIM_ROOT, 2, 1) == '/'
+            let $FCVIM_ROOT = strpart($FCVIM_ROOT, 1, 1) . ':' . strpart($FCVIM_ROOT, 2)
+        else
+            if isdirectory("c:/msys64")
+                let $PATH = "c:/msys64/ucrt64/bin;c:/msys64/usr/local/bin;c:/msys64/usr/bin;c:/msys64/bin;" . $PATH
+                " let $HOME = "c:/msys64/home/" . $USER
+            endif
+        endif
+    endif
 endif
 
 if !exists('$FCVIM_TOOLS')

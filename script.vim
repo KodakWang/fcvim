@@ -139,6 +139,7 @@ if has_key(g:plugs, "coc.nvim")
                         \})
             call coc#config('explorer.keyMappings.global', {
                         \ "<tab>": "actionMenu",
+                        \ "gs": ["wait", "reveal:select"],
                         \ "?": "help",
                         \ "I": "toggleHidden",
                         \ "<cr>": ["wait", "expandable?", ["expanded?", "collapse", "expand"], "open"],
@@ -602,6 +603,7 @@ if has_key(g:plugs, "vimtweak") || $FCVIM_OS == 'windows'
 
 		if has_key(g:plugs, "EasyColour")
 			autocmd GUIEnter * call libcallnr(g:vimtweak_dll_path, "SetAlpha", 200)
+            autocmd GUIEnter * call libcallnr(g:vimtweak_dll_path, "EnableTopMost", 1)
 		else
 			" 获取 Normal 高亮组的 guibg 值
 			" let guibg_color = matchstr(execute('hi Normal'), 'guibg=#\(\w\+\)')
@@ -611,7 +613,6 @@ if has_key(g:plugs, "vimtweak") || $FCVIM_OS == 'windows'
 			" autocmd GUIEnter * call libcallnr(g:vimtweak_dll_path, "SetAlpha", str2nr(hex_value, 16))
 		endif
 		autocmd GUIEnter * call libcallnr(g:vimtweak_dll_path, "EnableMaximize", 1)
-		autocmd GUIEnter * call libcallnr(g:vimtweak_dll_path, "EnableTopMost", 1)
 		autocmd GUIEnter * call libcallnr(g:vimtweak_dll_path, "EnableCaption", 1)
 	endif
 endif

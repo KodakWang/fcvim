@@ -126,7 +126,7 @@ augroup mygroup
   autocmd!
   " Setup formatexpr specified filetype(s)
   autocmd FileType typescript,json,c,cpp,go,python setl formatexpr=CocAction('formatSelected')
-  autocmd FileType sh let &l:formatprg='shfmt -i ' . &l:shiftwidth . ' -ln posix -sr -ci -s'
+  autocmd FileType sh let &l:formatprg='shfmt -i ' . &l:shiftwidth . ' -ln auto -sr -ci -s'
   " Update signature help on jump placeholder
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
