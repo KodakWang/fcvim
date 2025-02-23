@@ -60,7 +60,7 @@ map <leader>fl :Lines<cr>
 nnoremap <silent> <leader>fd <Cmd>call CocAction('format')<CR>
 nmap <silent><leader>is <Cmd>CocCommand clangd.switchSourceHeader<cr>
 " 切换诊断的快捷键
-nnoremap <silent><leader>td <Cmd>call CocAction('diagnosticToggle')<CR>
+nnoremap <silent><leader>d <Cmd>call FCVIM_ToggleDiagnostic()<CR>
 
 " Use tab for trigger completion with characters ahead and navigate
 " NOTE: There's always complete item selected by default, you may want to enable

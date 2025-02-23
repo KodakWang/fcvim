@@ -235,9 +235,9 @@ if has_key(g:plugs, "coc.nvim")
 				\ "typeParameter": "\uf728",
 				\ "default": "\uf29c"
 				\})
-	" call coc#config('diagnostic', {
-	" \ 'enable': v:false,
-	" \})
+    call coc#config('diagnostic', {
+                \ 'enable': v:false,
+                \})
 	" signature
 	" .enable              启用签名帮助（函数定义等）
 	" .preferShownAbove    提示浮窗是否显示在光标上方
