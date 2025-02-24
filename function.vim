@@ -266,7 +266,7 @@ function! FCVIM_ToggleQuickFix()
 endfunction
 
 function! FCVIM_ToggleDiagnostic()
-    # Note: call CocAction('diagnosticToggle') methods have issues.
+    " Note: call CocAction('diagnosticToggle') methods have issues.
     if !coc#util#get_config('diagnostic')['enable']
         call coc#config('diagnostic', {
                     \ 'enable': v:true,
