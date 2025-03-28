@@ -52,9 +52,16 @@ map <leader>N :cprevious<cr>
 " map <unique> m. <Plug>Vm_goto_prev_sign
 
 " fzf
-map <leader>ff :Files<cr>
-map <leader>fb :Buffers<cr>
-map <leader>fl :Lines<cr>
+if $FCVIM_OS == 'windows'
+    " 全屏显示来规避windows可能出现的显示异常
+    map <leader>ff <Cmd>call fzf#vim#files("", fzf#vim#with_preview(), 1)<CR>
+    map <leader>fb <Cmd>call fzf#vim#buffers("", fzf#vim#with_preview({ "placeholder": "{1}" }), 1)<CR>
+    map <leader>fl <Cmd>call fzf#vim#lines("", 1)<CR>
+else
+    map <leader>ff :Files<cr>
+    map <leader>fb :Buffers<cr>
+    map <leader>fl :Lines<cr>
+endif
 
 " coc
 nnoremap <silent> <leader>fd <Cmd>call CocAction('format')<CR>

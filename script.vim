@@ -28,6 +28,7 @@ if v:version < 802 " 高版本的coc不兼容vim8.2之前的版本
 else
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
 endif
+Plug 'rust-lang/rust.vim'
 
 " 风格样式
 " Plug 'vim-scripts/EasyColour'
@@ -119,7 +120,7 @@ if has_key(g:plugs, "coc.nvim")
 					\ 'semanticHighlighting': v:true,
 					\})
 	else
-		let g:coc_global_extensions = ['coc-json', 'coc-clangd', 'coc-pyright', 'coc-go']
+		let g:coc_global_extensions = ['coc-json', 'coc-clangd', 'coc-pyright', 'coc-go', 'coc-rust-analyzer']
 		if !has_key(g:plugs, "nerdtree")
 			let g:coc_global_extensions += ['coc-explorer']
             call coc#config('explorer.icon', {
@@ -584,8 +585,15 @@ if has_key(g:plugs, "vim-bookmarks")
 	" endif
 endif
 
-" if has_key(g:plugs, "fzf")
-" endif
+if has_key(g:plugs, "fzf.vim")
+    " Initialize configuration dictionary
+    "let g:fzf_vim = {}
+
+    " Preview window is hidden by default. You can toggle it with ctrl-/.
+    " It will show on the right with 50% width, but if the width is smaller
+    " than 70 columns, it will show above the candidate list
+    "let g:fzf_vim.preview_window = ['hidden,right,50%,<70(up,40%)', 'ctrl-/']
+endif
 
 "-------------------------------------------------------------------------------
 " 其他
