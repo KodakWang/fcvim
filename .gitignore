@@ -3,3 +3,4 @@ autoload/*.old
 .netrwhist
 .vim-bookmarks
 .NERDTreeBookmarks
+.config

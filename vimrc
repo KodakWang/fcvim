@@ -18,7 +18,10 @@ if !isdirectory($FCVIM) "finddir($FCVIM) == ''
     elseif has('win32')
         let $FCVIM = substitute($USERPROFILE, '\\', '/', 'g') . '/Documents/projects/fcvim'
     else
-        let $FCVIM = expand('<sfile>:p:h') . '/projects/fcvim'
+        let $FCVIM = expand('<sfile>:p:h') . '/projects2/fcvim'
+        if !isdirectory($FCVIM)
+            let $FCVIM = expand('<sfile>:p:h') . '/projects/fcvim'
+        endif
     endif
 endif
 source $FCVIM/entry.vim

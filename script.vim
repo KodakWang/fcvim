@@ -103,6 +103,8 @@ if has_key(g:plugs, "coc.nvim")
 			let g:coc_node_path = 'C:/Program Files/nodejs/node'
 		endif
 	endif
+	let g:coc_config_home = $FCVIM_ROOT . '/.config/nvim'
+	let g:coc_data_home = $FCVIM_ROOT . '/.config/coc'
 	let g:coc_disable_startup_warning = v:true
 	if v:version < 802
 		" 第一次安装coc可能会直接安装最新版本的拓展插件（v0.0.73后的版本都会）
