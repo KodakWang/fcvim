@@ -28,7 +28,7 @@ if v:version < 802 " 高版本的coc不兼容vim8.2之前的版本
 else
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
 endif
-Plug 'rust-lang/rust.vim'
+" Plug 'rust-lang/rust.vim'
 
 " 风格样式
 " Plug 'vim-scripts/EasyColour'
@@ -57,6 +57,8 @@ Plug 'liuchengxu/vista.vim'
 " 文件浏览器
 if v:version < 802 " 高版本使用coc-explorer（尽量兼容nerdtree的快捷键）
     Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
+    Plug 'Xuyuanp/nerdtree-git-plugin'
+    Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 endif
 
 " 代码
@@ -122,7 +124,10 @@ if has_key(g:plugs, "coc.nvim")
 					\ 'semanticHighlighting': v:true,
 					\})
 	else
-		let g:coc_global_extensions = ['coc-json', 'coc-clangd', 'coc-pyright', 'coc-go', 'coc-rust-analyzer']
+		let g:coc_global_extensions = ['coc-json', 'coc-clangd', 'coc-pyright', 'coc-go']
+		if has_key(g:plugs, "rust.vim")
+			let g:coc_global_extensions += ['coc-rust-analyzer']
+        endif
 		if !has_key(g:plugs, "nerdtree")
 			let g:coc_global_extensions += ['coc-explorer']
             call coc#config('explorer.icon', {
@@ -494,20 +499,27 @@ if has_key(g:plugs, "nerdtree")
 	" K 到第一个节点                 J 到最后一个节点
 	" u 打开上层目录                 m 显示文件系统菜单（添加、删除、移动操作）
 	" r 递归刷新当前目录             R 递归刷新当前根目录
-	let NERDChristmasTree=1
-	let NERDTreeAutoCenter=1
-	let NERDTreeMouseMode=2
+	let g:NERDTreeAutoCenter=1
+	let g:NERDTreeMouseMode=2
 	if empty($FCVIM_TOPDIR)
-		let NERDTreeBookmarksFile = '.NERDTreeBookmarks'
+		let g:NERDTreeBookmarksFile = '.NERDTreeBookmarks'
 	else
-		let NERDTreeBookmarksFile = $FCVIM_TOPDIR . '/.NERDTreeBookmarks'
+		let g:NERDTreeBookmarksFile = $FCVIM_TOPDIR . '/.NERDTreeBookmarks'
 	endif
-	"let NERDTreeShowBookmarks=1
-	let NERDTreeShowFiles=1
-	let NERDTreeShowHidden=0
-	" let NERDTreeShowLineNumbers=1
-	let NERDTreeWinPos='left'
-	let NERDTreeMinimalUI = 1
+	"let g:NERDTreeShowBookmarks=1
+	let g:NERDTreeShowFiles=1
+	let g:NERDTreeShowHidden=0
+	" let g:NERDTreeShowLineNumbers=1
+	let g:NERDTreeWinPos='left'
+	let g:NERDTreeMinimalUI = 1
+
+    let g:NERDTreeDirArrowExpandable = '▸'
+    let g:NERDTreeDirArrowCollapsible = '▾'
+endif
+
+if has_key(g:plugs, "nerdtree-git-plugin")
+    " 0默认使用字符 1启用图标但可能有对齐问题
+    let g:NERDTreeGitStatusUseNerdFonts = 0
 endif
 
 "-------------------------------------------------------------------------------
